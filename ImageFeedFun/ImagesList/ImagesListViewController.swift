@@ -9,16 +9,16 @@ import UIKit
 
 final class ImagesListViewController: UIViewController {
     
-    @IBOutlet weak var tableView: UITableView!
-    
+    private let currentDate = Date()
     private let photosName: [String] = Array(0..<20).map{ "\($0)"}
-    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
     }()
+    
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +71,7 @@ private extension ImagesListViewController {
         }
         
         cell.imageLabel.image = image
-        cell.dateTextLAbel.text = dateFormatter.string(from: Date())
+        cell.dateTextLAbel.text = dateFormatter.string(from: currentDate)
         
         let isLiked = indexPath.row % 2 == 0
         let likeImage = isLiked ? UIImage(named: "Favorite") : UIImage(named: "noActive")
