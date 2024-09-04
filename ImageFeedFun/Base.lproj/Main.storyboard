@@ -36,9 +36,9 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 3 сентября 2024" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l18-ul-6xG" userLabel="DateTextLabel">
-                                                    <rect key="frame" x="16" y="175.66666666666666" width="361" height="20.333333333333343"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 сентября 2024" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l18-ul-6xG" userLabel="DateTextLabel">
+                                                    <rect key="frame" x="24" y="172.33333333333334" width="353" height="15.666666666666657"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -56,10 +56,10 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="l18-ul-6xG" firstAttribute="trailing" secondItem="Lwy-59-SCR" secondAttribute="trailing" id="SgA-fk-kA5"/>
-                                                <constraint firstItem="l18-ul-6xG" firstAttribute="bottom" secondItem="Lwy-59-SCR" secondAttribute="bottom" id="g43-Yr-Ucr"/>
+                                                <constraint firstItem="l18-ul-6xG" firstAttribute="bottom" secondItem="Lwy-59-SCR" secondAttribute="bottom" constant="-8" id="g43-Yr-Ucr"/>
                                                 <constraint firstItem="ymn-DF-cnL" firstAttribute="trailing" secondItem="l18-ul-6xG" secondAttribute="trailing" id="nke-4P-viw"/>
+                                                <constraint firstItem="l18-ul-6xG" firstAttribute="leading" secondItem="Lwy-59-SCR" secondAttribute="leading" constant="8" id="orL-Jq-WJ4"/>
                                                 <constraint firstItem="ymn-DF-cnL" firstAttribute="top" secondItem="Lwy-59-SCR" secondAttribute="top" id="xz7-SP-R5l"/>
-                                                <constraint firstItem="l18-ul-6xG" firstAttribute="leading" secondItem="Lwy-59-SCR" secondAttribute="leading" id="y4E-Ms-dkq"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

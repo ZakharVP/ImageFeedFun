@@ -71,7 +71,7 @@ private extension ImagesListViewController {
         }
         
         cell.imageLabel.image = image
-        cell.dateTextLAbel.text = dateFormatter.string(from: currentDate)
+        cell.dateTextLabel.text = dateFormatter.string(from: currentDate)
         
         let isLiked = indexPath.row % 2 == 0
         let likeImage = isLiked ? UIImage(named: "Favorite") : UIImage(named: "noActive")
