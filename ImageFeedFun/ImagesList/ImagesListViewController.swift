@@ -23,11 +23,8 @@ final class ImagesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.rowHeight = 200
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        
     }
-
 }
 
 extension ImagesListViewController: UITableViewDelegate {
@@ -45,8 +42,6 @@ extension ImagesListViewController: UITableViewDelegate {
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeight
     }
-    
-    
 }
 
 extension ImagesListViewController: UITableViewDataSource {
@@ -79,5 +74,4 @@ extension ImagesListViewController {
         let likeImage = isLiked ? UIImage(named: "Favorite") : UIImage(named: "noActive")
         cell.likeButton.setImage(likeImage, for: .normal)
     }
-    
 }
