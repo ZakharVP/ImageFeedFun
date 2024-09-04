@@ -71,7 +71,7 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="contentCell" destination="hBJ-Hu-x1L" id="rXf-xP-ios"/>
-                                            <outlet property="dateTextLAbel" destination="l18-ul-6xG" id="rJZ-39-AvI"/>
+                                            <outlet property="dateTextLabel" destination="l18-ul-6xG" id="nCQ-94-LP7"/>
                                             <outlet property="imageLabel" destination="Lwy-59-SCR" id="Ht3-wb-CBr"/>
                                             <outlet property="likeButton" destination="ymn-DF-cnL" id="pIv-t5-8ZP"/>
                                         </connections>
