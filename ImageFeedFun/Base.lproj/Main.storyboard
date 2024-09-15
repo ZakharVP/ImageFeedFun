@@ -153,7 +153,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="hK1-FQ-J7J">
-                                        <rect key="frame" x="0.0" y="0.0" width="271" height="352"/>
+                                        <rect key="frame" x="8" y="8" width="271" height="352"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
@@ -163,7 +163,7 @@
                                     <outlet property="delegate" destination="On0-w7-HRN" id="FmA-H3-e90"/>
                                 </connections>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MpU-qf-rj0">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MpU-qf-rj0" userLabel="ButtonBack">
                                 <rect key="frame" x="8" y="8" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="WGl-Yj-ndP"/>
@@ -175,7 +175,7 @@
                                     <action selector="didTapBackButton" destination="On0-w7-HRN" eventType="touchUpInside" id="fd7-13-D4G"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4pP-nJ-SSf">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4pP-nJ-SSf" userLabel="ButtonShare">
                                 <rect key="frame" x="171.66666666666666" y="785" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="L4K-q8-cBl"/>
@@ -191,14 +191,14 @@
                         <viewLayoutGuide key="safeArea" id="nu3-4d-y6w"/>
                         <color key="backgroundColor" red="0.1019607843" green="0.1058823529" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="1cr-2T-my4" firstAttribute="top" secondItem="nu3-4d-y6w" secondAttribute="top" id="3Xz-JM-a4m"/>
+                            <constraint firstItem="1cr-2T-my4" firstAttribute="top" secondItem="lUd-d8-DJN" secondAttribute="top" id="3Xz-JM-a4m"/>
                             <constraint firstItem="MpU-qf-rj0" firstAttribute="top" secondItem="nu3-4d-y6w" secondAttribute="top" constant="8" id="CUv-xT-R7T"/>
                             <constraint firstItem="1cr-2T-my4" firstAttribute="leading" secondItem="nu3-4d-y6w" secondAttribute="leading" id="FQE-fE-K0w"/>
                             <constraint firstItem="4pP-nJ-SSf" firstAttribute="centerX" secondItem="nu3-4d-y6w" secondAttribute="centerX" id="OWb-TS-dy0"/>
-                            <constraint firstItem="1cr-2T-my4" firstAttribute="bottom" secondItem="nu3-4d-y6w" secondAttribute="bottom" constant="44" id="VUe-rG-vvh"/>
+                            <constraint firstAttribute="bottom" secondItem="1cr-2T-my4" secondAttribute="bottom" id="VUe-rG-vvh"/>
                             <constraint firstItem="nu3-4d-y6w" firstAttribute="bottom" secondItem="4pP-nJ-SSf" secondAttribute="bottom" constant="17" id="gXl-Ve-Iaf"/>
                             <constraint firstItem="MpU-qf-rj0" firstAttribute="leading" secondItem="nu3-4d-y6w" secondAttribute="leading" constant="8" id="m6Z-4Y-7qk"/>
-                            <constraint firstItem="1cr-2T-my4" firstAttribute="trailing" secondItem="nu3-4d-y6w" secondAttribute="trailing" id="oxg-XS-0ik"/>
+                            <constraint firstItem="nu3-4d-y6w" firstAttribute="trailing" secondItem="1cr-2T-my4" secondAttribute="trailing" id="oxg-XS-0ik"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="2bk-MR-I5L"/>
