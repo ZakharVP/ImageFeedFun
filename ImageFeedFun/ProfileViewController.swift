@@ -17,7 +17,7 @@ final class ProfileViewController: UIViewController {
    override func viewDidLoad() {
        
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = UIColor(named: "BlackColorFon")
         
         addProfileImageView()
         addButtonExitView()
