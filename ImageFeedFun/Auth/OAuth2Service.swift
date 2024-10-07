@@ -7,40 +7,6 @@
 
 import Foundation
 
-struct OAuthTokenResponseBody: Decodable {
-  
-    let accessToken: String
-    let tokenType: String
-    let scope: String
-    let createdAt: Int
-  
-    private enum CodingKeys: String, CodingKey {
-        case accessToken = "access_token"
-        case tokenType = "token_type"
-        case scope
-        case createdAt = "created_at"
-    }
-    
-    private enum ParseError: Error {
-        case createdAtFailure
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        accessToken = try container.decode(String.self, forKey: .accessToken)
-        tokenType = try container.decode(String.self, forKey: .tokenType)
-        scope = try container.decode(String.self, forKey: .scope)
-        createdAt = try container.decode(Int.self, forKey: .createdAt)
-    }
-}
-
-enum NetworkError: Error {
-    case httpStatusCode(Int)
-    case urlRequestError(Error)
-    case urlSessionError
-}
-
 final class OAuth2Service {
     
     var authToken: String? {
@@ -53,25 +19,14 @@ final class OAuth2Service {
     }
     
     static let shared = OAuth2Service()
-    
     private let decoder = JSONDecoder()
-    
     private let urlSession = URLSession.shared
-    
-    private enum NetworkError: Error {
-        case codeError
-    }
-    
-    private enum OAuth2ServiceConstants {
-        static let unsplashGetTokenURLString = "https://unsplash.com/oauth/token"
-    }
     
     private init() {}
     
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, any Error>) -> Void) {
         
         let request = makeOAuthTokenRequest(code: code)
-        
         let task = urlSession.data(for: request) { [weak self] result in
             
             guard let self else { preconditionFailure("self is unavalible") }
@@ -91,7 +46,6 @@ final class OAuth2Service {
                 
             case .failure(let error):
                 completion(.failure(error))
-                
             }
         }
         task.resume()
@@ -116,12 +70,12 @@ final class OAuth2Service {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        print(request)
         return request
     }
 }
 
 extension URLSession {
+    
     func data(
         for request: URLRequest,
         completion: @escaping (Result<Data, Error>) -> Void
