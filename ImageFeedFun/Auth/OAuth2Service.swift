@@ -9,14 +9,7 @@ import Foundation
 
 final class OAuth2Service {
     
-    var authToken: String? {
-        get {
-            OAuth2TokenStorage().token
-        }
-        set {
-            OAuth2TokenStorage().token = newValue
-        }
-    }
+    private let tokenStorage = OAuth2TokenStorage()
     
     static let shared = OAuth2Service()
     private let decoder = JSONDecoder()
@@ -35,11 +28,9 @@ final class OAuth2Service {
             case .success(let data):
                 
                 do {
-                    let OAuthTokenResponseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    print(OAuthTokenResponseBody)
-                    print(OAuthTokenResponseBody.accessToken)
-                    self.authToken = OAuthTokenResponseBody.accessToken
-                    completion(.success(OAuthTokenResponseBody.accessToken))
+                    let responseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+                    self.tokenStorage.token = responseBody.accessToken
+                    completion(.success(responseBody.accessToken))
                 } catch {
                     completion(.failure(error))
                 }
