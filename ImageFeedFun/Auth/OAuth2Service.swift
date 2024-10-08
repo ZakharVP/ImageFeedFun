@@ -18,10 +18,15 @@ final class OAuth2Service {
     
     func fetchToken(_ code: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
         
-        let request = makeTokenRequest(code: code)
+        //Так как теперь запрос может быть nil, мне нужно обработать это
+        guard let request = makeTokenRequest(code: code) else {
+            print("Error, request is nil \n")
+            return
+        }
         
+        //TODO Сделать логирование ошибок в консоль // Блок 3. URLRequest
+        //Ниже по коду через функцию logError вывожу в консоль ошибки
         let task = urlSession.dataTask(with: request) { [weak self] data, response, error in
-            
             
             if let error = error {
                 let networkError = NetworkError.urlRequestError(error)
@@ -67,18 +72,19 @@ final class OAuth2Service {
     private func logError(_ error: NetworkError) {
         switch error{
         case .httpStatusCode(let code):
-            print("HTTP Error: \(code)")
+            print("HTTP Error: \n \(code)")
         case .urlRequestError(let requestError):
-            print("URL Request Error: \(requestError.localizedDescription)")
+            print("URL Request Error: \n \(requestError.localizedDescription)")
         case .urlSessionError(let message):
-            print("URL Session Error: \(message)")
+            print("URL Session Error: \n \(message)")
         }
     }
     
-    private func makeTokenRequest(code: String) -> URLRequest {
+    private func makeTokenRequest(code: String) -> URLRequest? {
         //TODO Сделать логирование ошибок в консоль // Блок 1. URLComponents
         guard var urlComponents = URLComponents(string: Constants.unsplashGetTokenURLString) else {
-            preconditionFailure("invalide sheme or host name")
+            print("invalide sheme or host name \n")
+            return nil
         }
         
         urlComponents.queryItems = [
@@ -91,7 +97,8 @@ final class OAuth2Service {
         
         //TODO Сделать логирование ошибок в консоль // Блок 2. URL
         guard let url = urlComponents.url else {
-            preconditionFailure("Cannot make url")
+            print("Cannot make url \n")
+            return nil
         }
         
         var request = URLRequest(url: url)
