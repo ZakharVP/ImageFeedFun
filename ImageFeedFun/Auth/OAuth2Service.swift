@@ -44,7 +44,7 @@ final class OAuth2Service {
             }
             
             do {
-                guard let self else { preconditionFailure("self is unavalible") }
+                guard let self else { return }
                 
                 if let data = data {
                     let responseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
@@ -73,7 +73,8 @@ final class OAuth2Service {
     }
     
     private func makeTokenRequest(code: String) -> URLRequest {
-        guard var urlComponents = URLComponents(string: OAuth2ServiceConstants.unsplashGetTokenURLString) else {
+        //TODO Сделать логирование ошибок в консоль // Блок 1. URLComponents
+        guard var urlComponents = URLComponents(string: Constants.unsplashGetTokenURLString) else {
             preconditionFailure("invalide sheme or host name")
         }
         
