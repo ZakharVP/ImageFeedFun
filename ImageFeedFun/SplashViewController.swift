@@ -34,17 +34,22 @@ final class SplashViewController: UIViewController {
     
     private func switchToTabBarController(){
         
-        guard let window = UIApplication.shared.windows.first else {
-            assertionFailure("Invalid window configuration")
-            return
+        //Обернул выполнение в основной поток, так как после выполнения сетевого запроса получаю ошибку
+        //UIApplication.windows must be used from main thread only
+        DispatchQueue.main.async {
+            guard let window = UIApplication.shared.windows.first else {
+                assertionFailure("Invalid window configuration")
+                return
+            }
+            
+            
+            let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
+            window.rootViewController = tabBarController
         }
-        
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
-        window.rootViewController = tabBarController
     }
     
     private func fetchOAuthToken(_ code: String) {
-        oauth2Service.fetchOAuthToken(code) { [weak self] result in
+        oauth2Service.fetchToken(code) { [weak self] result in
             guard let self else { preconditionFailure("Weak self error") }
             switch result {
             case .success:

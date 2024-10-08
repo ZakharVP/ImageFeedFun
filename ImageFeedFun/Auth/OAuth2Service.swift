@@ -10,39 +10,69 @@ import Foundation
 final class OAuth2Service {
     
     private let tokenStorage = OAuth2TokenStorage()
-    
     static let shared = OAuth2Service()
     private let decoder = JSONDecoder()
     private let urlSession = URLSession.shared
     
     private init() {}
     
-    func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, any Error>) -> Void) {
+    func fetchToken(_ code: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
         
-        let request = makeOAuthTokenRequest(code: code)
-        let task = urlSession.data(for: request) { [weak self] result in
+        let request = makeTokenRequest(code: code)
+        
+        let task = urlSession.dataTask(with: request) { [weak self] data, response, error in
             
-            guard let self else { preconditionFailure("self is unavalible") }
             
-            switch result {
-            case .success(let data):
+            if let error = error {
+                let networkError = NetworkError.urlRequestError(error)
+                self?.logError(networkError)
+                completion(.failure(networkError))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                let error = NetworkError.urlSessionError("Invalid response type")
+                self?.logError(error)
+                completion(.failure(error))
+                return
+            }
+            
+            guard (200...299).contains(httpResponse.statusCode) else {
+                let error = NetworkError.httpStatusCode(httpResponse.statusCode)
+                self?.logError(error)
+                return
+            }
+            
+            do {
+                guard let self else { preconditionFailure("self is unavalible") }
                 
-                do {
+                if let data = data {
                     let responseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
                     self.tokenStorage.token = responseBody.accessToken
                     completion(.success(responseBody.accessToken))
-                } catch {
-                    completion(.failure(error))
                 }
-                
-            case .failure(let error):
-                completion(.failure(error))
+            }
+            catch {
+                let parsingError = NetworkError.urlRequestError(error)
+                self?.logError(parsingError)
+                completion(.failure(parsingError))
             }
         }
         task.resume()
     }
     
-    func makeOAuthTokenRequest(code: String) -> URLRequest {
+    func logError(_ error: NetworkError) {
+        switch error{
+        case .httpStatusCode(let code):
+            print("HTTP Error: \(code)")
+        case .urlRequestError(let requestError):
+            print("URL Request Error: \(requestError.localizedDescription)")
+        case .urlSessionError(let message):
+            print("URL Session Error: \(message)")
+        }
+    }
+    
+    func makeTokenRequest(code: String) -> URLRequest {
         guard var urlComponents = URLComponents(string: OAuth2ServiceConstants.unsplashGetTokenURLString) else {
             preconditionFailure("invalide sheme or host name")
         }
