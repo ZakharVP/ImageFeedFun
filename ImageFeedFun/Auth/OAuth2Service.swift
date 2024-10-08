@@ -46,6 +46,9 @@ final class OAuth2Service {
             do {
                 guard let self else { return }
                 
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                
                 if let data = data {
                     let responseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
                     self.tokenStorage.token = responseBody.accessToken
@@ -86,6 +89,7 @@ final class OAuth2Service {
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]
         
+        //TODO Сделать логирование ошибок в консоль // Блок 2. URL
         guard let url = urlComponents.url else {
             preconditionFailure("Cannot make url")
         }
