@@ -61,7 +61,7 @@ final class OAuth2Service {
         task.resume()
     }
     
-    func logError(_ error: NetworkError) {
+    private func logError(_ error: NetworkError) {
         switch error{
         case .httpStatusCode(let code):
             print("HTTP Error: \(code)")
@@ -72,7 +72,7 @@ final class OAuth2Service {
         }
     }
     
-    func makeTokenRequest(code: String) -> URLRequest {
+    private func makeTokenRequest(code: String) -> URLRequest {
         guard var urlComponents = URLComponents(string: OAuth2ServiceConstants.unsplashGetTokenURLString) else {
             preconditionFailure("invalide sheme or host name")
         }

@@ -42,15 +42,14 @@ final class SplashViewController: UIViewController {
                 return
             }
             
-            
             let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
             window.rootViewController = tabBarController
         }
     }
     
-    private func fetchOAuthToken(_ code: String) {
+    func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchToken(code) { [weak self] result in
-            guard let self else { preconditionFailure("Weak self error") }
+            guard let self else { return }
             switch result {
             case .success:
                 self.switchToTabBarController()
