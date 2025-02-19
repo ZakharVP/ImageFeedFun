@@ -7,38 +7,108 @@
 
 import Foundation
 import UIKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
     
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     private let oauth2Service = OAuth2Service.shared
     private let storage = OAuth2TokenStorage()
+    private let iView = UIImageView()
+    private let button = UIButton(type: .system)
     
-    @IBOutlet weak var imageView: UIImageView!
+    let profileService = ProfileService.shared
+    let profile = Profile.self
     
     override func viewDidAppear(_ animated: Bool){
         super.viewDidAppear(animated)
         
-        // Проверка на наличие ключа
-        if storage.token != nil {
-            switchToTabBarController()
+        print("Открытие основного окна и выбор экрана от условий")
+        let nToken = storage.get()
+        if let token = nToken, !token.isEmpty {
+            fetchFullProfileAndGoToTabBarController(token)
         } else {
-            performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let vcAuth = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
+                print("Не удалось создать AuthenticationViewController")
+                return
+            }
+            vcAuth.delegate = self
+            
+            vcAuth.modalPresentationStyle = .fullScreen
+            self.present(vcAuth, animated: true, completion: nil)
         }
+      
+        guard let vcAuth = storyboard?.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
+            print("Не удалось создать AuthenticationViewController")
+            return
+        }
+        vcAuth.delegate = self
+            
+        vcAuth.modalPresentationStyle = .fullScreen
+        self.present(vcAuth, animated: true, completion: nil)
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.backgroundColor = .blackColorFon
+        
+        view.backgroundColor = .black
+ 
+// Заготовка
+//        addImageView()
+//        addButton()
+//        addConstraint()
+        
     }
     
-    private func switchToTabBarController(){
+    private func addImageView() {
         
-        //Обернул выполнение в основной поток, так как после выполнения сетевого запроса получаю ошибку
+       
+        iView.tintColor = .gray
+        iView.translatesAutoresizingMaskIntoConstraints = false
+        iView.image = UIImage(named: "auth_screen_logo")
+        
+        view.addSubview(iView)
+        
+    }
+    
+    private func addButton() {
+        
+        button.setTitle("Войти", for: .normal)
+        button.setTitleColor(.black, for: .normal) // Текст кнопки белый
+        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
+        button.backgroundColor = .white // Измените цвет фона кнопки на синий (или любой другой)
+        button.layer.cornerRadius = 8 // Закругление углов
+        button.translatesAutoresizingMaskIntoConstraints = false // Включаем Auto Layout
+        
+        button.addTarget(self, action: #selector(onButtonTapped), for: .touchUpInside)
+        
+        view.addSubview(button)
+        
+    }
+    
+    private func addConstraint() {
+        
+        NSLayoutConstraint.activate([
+            iView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            iView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            button.heightAnchor.constraint(equalToConstant: 48),
+            button.widthAnchor.constraint(equalToConstant: 150),
+            button.centerXAnchor.constraint(equalTo: view.centerXAnchor), // Центрирование по горизонтали
+            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -124),
+            button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            
+            ])
+        
+    }
+  
+    func switchToTabBarController(){
         //UIApplication.windows must be used from main thread only
         DispatchQueue.main.async {
             guard let window = UIApplication.shared.windows.first else {
-                assertionFailure("Invalid window configuration")
+                assertionFailure("Ошибка при открытии первого окна")
                 return
             }
             
@@ -48,48 +118,30 @@ final class SplashViewController: UIViewController {
     }
     
     func fetchOAuthToken(_ code: String) {
+        UIBlockingProgressHUD.show() // ProgressHUD.animate()
+        
         oauth2Service.fetchToken(code) { [weak self] result in
             guard let self else { return }
+            UIBlockingProgressHUD.dismiss() // ProgressHUD.dismiss()
             switch result {
             case .success:
                 self.switchToTabBarController()
             case .failure(let error):
-                print("fetch token error \(error)")
+                print("Ошибка при получении токена \(error)")
             }
         }
     }
-}
-
-extension SplashViewController: AuthViewControllerDelegate {
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.fetchOAuthToken(code)
+ 
+    @objc private func onButtonTapped() {
+        guard let vcAuth = storyboard?.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
+            print("Не удалось создать AuthenticationViewController")
+            return
         }
-    }
-}
-
-extension SplashViewController {
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        vcAuth.delegate = self
         
-        if segue.identifier == showAuthenticationScreenSegueIdentifier {
-            guard
-                let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else {
-                assertionFailure("Failed to prepare for  \(showAuthenticationScreenSegueIdentifier)")
-                return
-            }
-            viewController.delegate = self
-        }
-        else {
-            super.prepare(for: segue, sender: sender)
-        }
+        vcAuth.modalPresentationStyle = .fullScreen
+        self.present(vcAuth, animated: true, completion: nil)
     }
 }
-
-
-    
 
 

@@ -6,26 +6,58 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
 final class ProfileViewController: UIViewController {
+
+    private let storage = OAuth2TokenStorage()
     
     private var profileView: UIImageView?
     private var fullNameView: UILabel?
     private var mailView: UILabel?
     private var textView: UILabel?
     
-   override func viewDidLoad() {
-       
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
+    override func viewDidLoad() {
+        
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "BlackColorFon")
+        ProfileImageService.shared.setControllerReady()
         
         addProfileImageView()
         addButtonExitView()
         addFullNameView()
         addMailView()
         addTextView()
+        
+        if let profile = ProfileService.shared.profile {
+            updateProfileDetails(profile: profile)
+        }
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                print("Уведомление получено")
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        
+        // TODO найти решение как добится обновления картинки через обсервер
+        updateAvatar()
     }
-    
+    private func updateAvatar() {
+        guard let imageAvatar = ProfileImageService.shared.avatarImage else { return}
+        profileView?.image = imageAvatar
+    }
+    private func updateProfileDetails(profile: Profile) {
+        fullNameView?.text  = profile.name
+        mailView?.text      = profile.loginName
+    }
+        
     private func addProfileImageView() {
         
         guard let profileImage = UIImage(named: "profile_photo") else { return}
@@ -114,5 +146,11 @@ final class ProfileViewController: UIViewController {
     @objc
     private func didTapButton() {
         //TODO "Something"
+        let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: "Auth token")
+        if removeSuccessful {
+            print("Ключ удален из хранилища")
+        } else {
+            print("Ключ не получилось удалить из хранилища")
+        }
     }
 }
