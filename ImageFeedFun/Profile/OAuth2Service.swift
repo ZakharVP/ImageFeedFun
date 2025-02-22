@@ -58,7 +58,6 @@ final class OAuth2Service {
                     self?.tokenStorage.set(newValue: responseBody.accessToken)
                     completion(.success(responseBody.accessToken))
                 case .failure(let error):
-                    self?.showAlert(title: "ОШИБКА", message: "Не удалось получить код доступа")
                     let networkError: NetworkError
                     if let urlSessionError = error as? URLError {
                         networkError = NetworkError.urlRequestError(urlSessionError)
@@ -119,10 +118,5 @@ final class OAuth2Service {
         return request
     }
     
-    private func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default)
-        alert.addAction(okAction)
-        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true)
-    }
+
 }

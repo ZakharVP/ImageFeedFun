@@ -103,6 +103,13 @@ final class SplashViewController: UIViewController {
             ])
         
     }
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true)
+    }
   
     func switchToTabBarController(){
         //UIApplication.windows must be used from main thread only
@@ -128,6 +135,7 @@ final class SplashViewController: UIViewController {
                 self.switchToTabBarController()
             case .failure(let error):
                 print("Ошибка при получении токена \(error)")
+                self.showAlert(title: "ОШИБКА", message: "Не удалось получить код доступа")
             }
         }
     }
