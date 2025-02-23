@@ -132,7 +132,7 @@ final class SplashViewController: UIViewController {
             UIBlockingProgressHUD.dismiss() // ProgressHUD.dismiss()
             switch result {
             case .success:
-                self.switchToTabBarController()
+                fetchFullProfileAndGoToTabBarController(code)
             case .failure(let error):
                 print("Ошибка при получении токена \(error)")
                 self.showAlert(title: "ОШИБКА", message: "Не удалось получить код доступа")

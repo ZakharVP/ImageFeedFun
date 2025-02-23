@@ -7,10 +7,12 @@
 
 import UIKit
 import SwiftKeychainWrapper
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
 
     private let storage = OAuth2TokenStorage()
+    private let profileImageService = ProfileImageService()
     
     private var profileView: UIImageView?
     private var fullNameView: UILabel?
@@ -23,7 +25,6 @@ final class ProfileViewController: UIViewController {
         
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "BlackColorFon")
-        ProfileImageService.shared.setControllerReady()
         
         addProfileImageView()
         addButtonExitView()
@@ -42,16 +43,24 @@ final class ProfileViewController: UIViewController {
                 queue: .main
             ) { [weak self] _ in
                 print("Уведомление получено")
-                guard let self = self else { return }
+                guard let self = self else {
+                    print("self is nil, контроллер был освобожден")
+                    return
+                }
+                print("self существует, обновляем аватар")
                 self.updateAvatar()
             }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            print("Проверка отправки наблюдателя. Отправляем уведомление")
+            NotificationCenter.default.post(name: ProfileImageService.didChangeNotification, object: nil)
+        }
         
-        // TODO найти решение как добится обновления картинки через обсервер
-        updateAvatar()
     }
     private func updateAvatar() {
-        guard let imageAvatar = ProfileImageService.shared.avatarImage else { return}
-        profileView?.image = imageAvatar
+        print("Получаем ссылку и загружаем профиль")
+        guard let profileURL = ProfileImageService.shared.profileImageURL else { return}
+        profileView?.kf.setImage(with: profileURL)
     }
     private func updateProfileDetails(profile: Profile) {
         fullNameView?.text  = profile.name
