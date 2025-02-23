@@ -118,6 +118,9 @@ final class ProfileViewController: UIViewController {
         fullNameView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         fullNameView.topAnchor.constraint(equalTo: profileView.bottomAnchor, constant: 8).isActive = true
         
+        profileView.layer.cornerRadius = 35 // Половина от ширины и высоты, чтобы сделать круг
+        profileView.layer.masksToBounds = true
+        
         self.fullNameView = fullNameView
         
     }
@@ -145,10 +148,11 @@ final class ProfileViewController: UIViewController {
         textView.textColor = .white
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.text = "Hello, world"
-        view.addSubview(textView)
+        // Так как описание не загружаю, то и не вывожу это поле
+        //view.addSubview(textView)
         
-        textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
-        textView.topAnchor.constraint(equalTo: mailView.bottomAnchor, constant: 8).isActive = true
+        //textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        //textView.topAnchor.constraint(equalTo: mailView.bottomAnchor, constant: 8).isActive = true
         
     }
     
