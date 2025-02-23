@@ -45,6 +45,7 @@ final class ProfileService {
     
     func fetchProfile (_ token: String, completion: @escaping(Result<ProfileResult, NetworkError>) -> Void) {
         
+        print("fetchProfile запущен")
         assert(Thread.isMainThread)
         guard let request = makeProfileRequest(token: token) else {
             completion(.failure(NetworkError.invalidRequest))

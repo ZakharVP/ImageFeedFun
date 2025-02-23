@@ -6,6 +6,7 @@
 //
 
 extension SplashViewController: AuthViewControllerDelegate {
+    
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
@@ -14,6 +15,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     func fetchFullProfileAndGoToTabBarController(_ token: String) {
+        print("Начало получения данных о профиле")
         UIBlockingProgressHUD.show()
         
         profileService.fetchProfile(token) { [weak self] result in
@@ -33,6 +35,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 
             case .failure:
                 print("Ошибка при получении профиля!")
+                self.showAlert(title: "ОШИБКА", message: "Ошибка при получении профиля")
                 break
             }
         }

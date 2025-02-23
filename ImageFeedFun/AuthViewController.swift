@@ -92,16 +92,8 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
         
         let webViewViewController = WebViewViewController()
         webViewViewController.delegate = self
-        webViewViewController.modalPresentationStyle = .fullScreen 
+        webViewViewController.modalPresentationStyle = .fullScreen
         present(webViewViewController, animated: true, completion: nil)
         
-//        guard let vcAuth = storyboard?.instantiateViewController(withIdentifier: "WebViewViewController") as? AuthViewController else {
-//            print("Не удалось создать AuthenticationViewController")
-//            return
-//        }
-//        //vcAuth.delegate = self
-//        
-//        vcAuth.modalPresentationStyle = .fullScreen
-//        self.present(vcAuth, animated: true, completion: nil)
     }
 }
