@@ -22,7 +22,18 @@ final class TabBarController: UITabBarController {
             image: UIImage(named: "chel"),
             selectedImage: nil
         )
+        setupTabBarAppearance()
         
         self.viewControllers = [imagesListViewController, profileViewController]
     }
+    
+    private func setupTabBarAppearance() {
+          
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(named: "BlackColorFon") // Черный фон
+              
+        // Применяем настройки для стандартного и скролл-состояния
+        tabBar.standardAppearance = appearance
+      }
 }

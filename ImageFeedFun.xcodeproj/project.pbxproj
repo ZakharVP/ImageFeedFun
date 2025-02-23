@@ -164,6 +164,7 @@
 				318918FA2C7D0EB2009312AD /* LaunchScreen.storyboard */,
 				318918FD2C7D0EB2009312AD /* Info.plist */,
 				31A0904A2D653CC400DFA357 /* TabBarController.swift */,
+				31CB288A2C995C7700C56E96 /* AuthViewController.swift */,
 				31DA59152C8A32E800260445 /* ProfileViewController.swift */,
 				314A5F192C8E23160034E87C /* SingleImageViewController.swift */,
 				312E574A2CA4A1F0001BFDE6 /* WebViewViewControllerDelegate.swift */,
@@ -196,7 +197,6 @@
 			isa = PBXGroup;
 			children = (
 				31636A5F2CB13B0300F2F859 /* AuthViewControllerDelegate.swift */,
-				31CB288A2C995C7700C56E96 /* AuthViewController.swift */,
 				31636A5D2CB12DCB00F2F859 /* OAuth2TokenStorage.swift */,
 			);
 			path = Auth;

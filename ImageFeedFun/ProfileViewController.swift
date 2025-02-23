@@ -131,6 +131,7 @@ final class ProfileViewController: UIViewController {
         let mailView = UILabel()
         mailView.textColor = UIColor(named: "GrayColorEmailName")
         mailView.translatesAutoresizingMaskIntoConstraints = false
+        mailView.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         mailView.text = "@ekaterina_nov"
         view.addSubview(mailView)
         
@@ -147,12 +148,13 @@ final class ProfileViewController: UIViewController {
         let textView = UILabel()
         textView.textColor = .white
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         textView.text = "Hello, world"
-        // Так как описание не загружаю, то и не вывожу это поле
-        //view.addSubview(textView)
         
-        //textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
-        //textView.topAnchor.constraint(equalTo: mailView.bottomAnchor, constant: 8).isActive = true
+        view.addSubview(textView)
+        
+        textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        textView.topAnchor.constraint(equalTo: mailView.bottomAnchor, constant: 8).isActive = true
         
     }
     

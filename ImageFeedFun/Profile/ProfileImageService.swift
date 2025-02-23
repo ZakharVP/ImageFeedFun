@@ -22,9 +22,6 @@ final class ProfileImageService {
         
         DispatchQueue.main.async {
                NotificationCenter.default.post(name: ProfileImageService.didChangeNotification, object: nil)
-           }
-
+        }
     }
-    
-
 }

@@ -25,8 +25,22 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadAuthView()
+        webView = WKWebView(frame: view.bounds)
         webView.navigationDelegate = self
+        view.addSubview(webView)
+        
+        progressView = UIProgressView(progressViewStyle: .default)
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(progressView)
+        
+        NSLayoutConstraint.activate([
+              progressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+              progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+              progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+          ])
+        
+        loadAuthView()
+        
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
              options: [],
@@ -61,6 +75,7 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
             print("Ошибка открытия ссылки")
             return
         }
+        print(url)
         let request = URLRequest(url: url)
         webView.load(request)
     }
