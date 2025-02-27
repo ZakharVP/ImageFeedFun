@@ -50,7 +50,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
         button.setTitleColor(.black, for: .normal) // Текст кнопки белый
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
         button.backgroundColor = .white // Измените цвет фона кнопки на синий (или любой другой)
-        button.layer.cornerRadius = 8 // Закругление углов
+        button.layer.cornerRadius = 16 // Закругление углов
         button.translatesAutoresizingMaskIntoConstraints = false // Включаем Auto Layout
         
         button.addTarget(self, action: #selector(onButtonTapped), for: .touchUpInside)
@@ -69,9 +69,9 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
             button.heightAnchor.constraint(equalToConstant: 48),
             button.widthAnchor.constraint(equalToConstant: 343),
             
-            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -124),
-            button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -124),
+            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
             
             ])
         
