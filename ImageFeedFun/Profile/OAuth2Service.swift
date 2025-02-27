@@ -22,7 +22,11 @@ final class OAuth2Service {
     func fetchToken(_ code: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
         
         assert(Thread.isMainThread)
+        
+        UIBlockingProgressHUD.show()
+        
         guard let request = makeTokenRequest(code: code) else {
+            UIBlockingProgressHUD.dismiss()
             completion(.failure(NetworkError.invalidRequest))
             return
         }
@@ -32,6 +36,7 @@ final class OAuth2Service {
             if lastCode != code {
                 task?.cancel()
             } else {
+                UIBlockingProgressHUD.dismiss()
                 completion(.failure(NetworkError.httpStatusCode(400)))
                 return
             }
@@ -40,12 +45,14 @@ final class OAuth2Service {
             print("task пустой")
             if lastCode == code {
                 print("task пустой, но значение lastcode \(lastCode)")
+                UIBlockingProgressHUD.dismiss()
                 completion(.failure(NetworkError.httpStatusCode(400)))
                 return
             }
         }
         lastCode = code
         guard let request = makeTokenRequest(code: code) else {
+            UIBlockingProgressHUD.dismiss()
             completion(.failure(NetworkError.httpStatusCode(400)))
             return
         }
@@ -53,6 +60,7 @@ final class OAuth2Service {
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             
             DispatchQueue.main.async{
+                UIBlockingProgressHUD.dismiss()
                 switch result {
                 case .success(let responseBody):
                     self?.tokenStorage.set(newValue: responseBody.accessToken)
