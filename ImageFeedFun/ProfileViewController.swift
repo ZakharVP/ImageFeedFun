@@ -75,8 +75,8 @@ final class ProfileViewController: UIViewController {
         profileView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileView)
         
-        profileView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32).isActive = true
-        profileView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
+        profileView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        profileView.topAnchor.constraint(equalTo: view.topAnchor, constant: 76).isActive = true
         profileView.widthAnchor.constraint(equalToConstant: 70).isActive = true
         profileView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
@@ -98,7 +98,7 @@ final class ProfileViewController: UIViewController {
         buttonExit.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonExit)
         
-        buttonExit.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
+        buttonExit.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
         buttonExit.centerYAnchor.constraint(equalTo: profileViewOne.centerYAnchor).isActive = true
         buttonExit.widthAnchor.constraint(equalToConstant: 44).isActive = true
         buttonExit.heightAnchor.constraint(equalToConstant: 44).isActive = true
@@ -115,7 +115,7 @@ final class ProfileViewController: UIViewController {
         fullNameView.text = "Екатерина Новикова"
         view.addSubview(fullNameView)
         
-        fullNameView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        fullNameView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         fullNameView.topAnchor.constraint(equalTo: profileView.bottomAnchor, constant: 8).isActive = true
         
         profileView.layer.cornerRadius = 35 // Половина от ширины и высоты, чтобы сделать круг
@@ -131,11 +131,11 @@ final class ProfileViewController: UIViewController {
         let mailView = UILabel()
         mailView.textColor = UIColor(named: "GrayColorEmailName")
         mailView.translatesAutoresizingMaskIntoConstraints = false
-        mailView.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        mailView.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         mailView.text = "@ekaterina_nov"
         view.addSubview(mailView)
         
-        mailView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        mailView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         mailView.topAnchor.constraint(equalTo: fullNameView.bottomAnchor, constant: 8).isActive = true
         
         self.mailView = mailView
@@ -148,12 +148,12 @@ final class ProfileViewController: UIViewController {
         let textView = UILabel()
         textView.textColor = .white
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        textView.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         textView.text = "Hello, world"
         
         view.addSubview(textView)
         
-        textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         textView.topAnchor.constraint(equalTo: mailView.bottomAnchor, constant: 8).isActive = true
         
     }
