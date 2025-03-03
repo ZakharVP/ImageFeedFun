@@ -10,7 +10,6 @@ import UIKit
 final class ProfileService {
     
     static let shared = ProfileService()
-    private init() {}
     
     private let decoder = JSONDecoder()
     private let urlSession = URLSession.shared
@@ -18,8 +17,9 @@ final class ProfileService {
     private var lastCode: String?
     
     private(set) var profile: Profile?
+    private init() {}
     
-    private func makeProfileRequest(token: String) -> URLRequest? {
+    private func makeProfileRequest() -> URLRequest? {
         URLRequest.makeHTTPRequest(
             path: "/me",
             httpMethod: "Get",
@@ -47,7 +47,7 @@ final class ProfileService {
         
         print("fetchProfile запущен")
         assert(Thread.isMainThread)
-        guard let request = makeProfileRequest(token: token) else {
+        guard let request = makeProfileRequest() else {
             completion(.failure(NetworkError.invalidRequest))
             return
         }

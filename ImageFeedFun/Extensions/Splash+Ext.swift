@@ -29,7 +29,8 @@ extension SplashViewController: AuthViewControllerDelegate {
                     let nProfile = self.profile.init(result: profileData)
                     print("Данные профиля разобраны")
                     ProfileService.shared.updateProfile(nProfile)
-                    ProfileImageService.shared.fetchProfileImageURL(from: profileData.profileImage?.medium ?? "http://placehold.it/150x150")
+                    let username = nProfile.loginName
+                    ProfileImageService.shared.fetchProfileImageURL(username: username) { _ in}
                 }
                 self.switchToTabBarController()
                 

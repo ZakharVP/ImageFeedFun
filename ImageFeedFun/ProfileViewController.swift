@@ -12,7 +12,7 @@ import Kingfisher
 final class ProfileViewController: UIViewController {
 
     private let storage = OAuth2TokenStorage()
-    private let profileImageService = ProfileImageService()
+    private let profileImageService = ProfileImageService.shared
     
     private var profileView: UIImageView?
     private var fullNameView: UILabel?

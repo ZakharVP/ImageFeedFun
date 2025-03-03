@@ -9,10 +9,7 @@ import UIKit
 
 extension URLSession {
     
-    func objectTask<T: Decodable>(
-        for request: URLRequest,
-        completion: @escaping (Result<T, Error>) -> Void
-    ) -> URLSessionTask {
+    func objectTask<T: Decodable>(for request: URLRequest, completion: @escaping (Result<T, Error>) -> Void ) -> URLSessionTask {
         
         let task = self.dataTask(with: request) { (data, response, error) in
             
@@ -47,10 +44,7 @@ extension URLSession {
         return task
     }
     
-    func imageTask (
-        for request: URLRequest,
-        completion: @escaping (Result<UIImage, Error>) -> Void
-    ) -> URLSessionDataTask {
+    func imageTask (for request: URLRequest, completion: @escaping (Result<UIImage, Error>) -> Void ) -> URLSessionDataTask {
         let task = self.dataTask(with: request) { data, response, error in
             
             if let error = error {
