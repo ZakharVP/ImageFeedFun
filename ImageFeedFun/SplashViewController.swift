@@ -5,7 +5,6 @@
 //  Created by Захар Панченко on 04.10.2024.
 //
 
-import Foundation
 import UIKit
 import ProgressHUD
 
@@ -50,7 +49,7 @@ final class SplashViewController: UIViewController {
         alert.addAction(okAction)
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true)
     }
-  
+    
     func switchToTabBarController(){
         //UIApplication.windows must be used from main thread only
         DispatchQueue.main.async {

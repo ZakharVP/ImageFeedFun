@@ -4,6 +4,7 @@
 //
 //  Created by Захар Панченко on 19.02.2025.
 //
+import Foundation
 
 extension SplashViewController: AuthViewControllerDelegate {
     
@@ -19,25 +20,30 @@ extension SplashViewController: AuthViewControllerDelegate {
         UIBlockingProgressHUD.show()
         
         profileService.fetchProfile(token) { [weak self] result in
-            UIBlockingProgressHUD.dismiss()
+            
             guard let self = self else { return }
-            switch result {
+            
+            DispatchQueue.main.async {
+                UIBlockingProgressHUD.dismiss()
                 
-            case .success:
-                print("Данные профиля получены")
-                if let profileData = try? result.get() {
-                    let nProfile = self.profile.init(result: profileData)
-                    print("Данные профиля разобраны")
-                    ProfileService.shared.updateProfile(nProfile)
-                    let username = nProfile.loginName
-                    ProfileImageService.shared.fetchProfileImageURL(username: username) { _ in}
+                switch result {
+        
+                case .success:
+                    print("Данные профиля получены")
+                    if let profileData = try? result.get() {
+                        let nProfile = self.profile.init(result: profileData)
+                        print("Данные профиля разобраны")
+                        ProfileService.shared.updateProfile(nProfile)
+                        let username = nProfile.loginName
+                        ProfileImageService.shared.fetchProfileImageURL(username: username) { _ in}
+                    }
+                    self.switchToTabBarController()
+                    
+                case .failure:
+                    print("Ошибка при получении профиля!")
+                    self.showAlert(title: "ОШИБКА", message: "Ошибка при получении профиля")
+                    break
                 }
-                self.switchToTabBarController()
-                
-            case .failure:
-                print("Ошибка при получении профиля!")
-                self.showAlert(title: "ОШИБКА", message: "Ошибка при получении профиля")
-                break
             }
         }
     }
