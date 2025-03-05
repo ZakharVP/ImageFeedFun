@@ -13,22 +13,21 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     func fetchFullProfileAndGoToTabBarController(_ token: String) {
-        print("Начало получения данных о профиле")
+        print("[fetchFullProfileAndGoToTabBarController] begin fetch data profile")
         UIBlockingProgressHUD.show()
         profileService.fetchProfile(token) { [weak self] result in
             
             guard let self = self else { return }
             
             DispatchQueue.main.async {
-                print("Скрываем индикатор загрузки")
                 UIBlockingProgressHUD.dismiss()
                 
                 switch result {
                 case .success:
-                    print("Данные профиля получены")
+                    print("[fetchProfile] data profile is received")
                     if let profileData = try? result.get() {
                         let nProfile = self.profile.init(result: profileData)
-                        print("Данные профиля разобраны")
+                        print("[fetchProfile] data profile is decoded")
                         ProfileService.shared.updateProfile(nProfile)
                         let username = nProfile.loginName
                         ProfileImageService.shared.fetchProfileImageURL(username: username) { _ in}
@@ -36,7 +35,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                     self.switchToTabBarController()
                     
                 case .failure:
-                    print("Ошибка при получении профиля!")
+                    print("[fetchProfile] error from received data profile!")
                     break
                 }
             }

@@ -18,7 +18,7 @@ final class ProfileImageService {
     private func makeProfileImageURL() -> URLRequest? {
         
         guard let profile = ProfileService.shared.profile else {
-            print("Профиль не получен")
+            print("[profile] profile have not get")
             return nil
         }
         
@@ -39,11 +39,11 @@ final class ProfileImageService {
         }
         
         if task != nil {
-            print("task не пустой")
+            print("[task] task not empty")
             completion(.failure(NetworkError.httpStatusCode(400)))
             return
         } else {
-            print("task пустой")
+            print("[task] task is empty")
         }
         
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, result, error in
@@ -57,7 +57,7 @@ final class ProfileImageService {
                 } else {
                     networkError = NetworkError.urlSessionError("Неизвестная ошибка сессии")
                 }
-                print(networkError)
+                print("[task] networkError is \(networkError)")
                 completion(.failure(networkError))
                 return
             }
@@ -68,9 +68,9 @@ final class ProfileImageService {
             }
             
             if let jsonString = String(data: data, encoding: .utf8) {
-                print("jsonstringImage: \(jsonString)")
+                print("[json] jsonstringImage: \(jsonString)")
             } else {
-                print("Error: invalid JSON image")
+                print("[json] jsonstring error: invalid JSON image")
             }
             do {
                 let userResult = try JSONDecoder().decode(UserResult.self, from: data)
@@ -78,19 +78,19 @@ final class ProfileImageService {
                 // Извлекаем ссылку на маленькое изображение
                 if let smallImageURL = userResult.profileImage?.small {
                     self.profileImageURL = URL(string: smallImageURL)
-                    print("Ссылка на аватар загружена: \(smallImageURL)")
+                    print("[task] url avatar has loaded: \(smallImageURL)")
                     
                     DispatchQueue.main.async {
-                        print("Отправляем уведомление о возможности загрузки аватара")
+                        print("[task] send notification to load avatar")
                         NotificationCenter.default.post(name: ProfileImageService.didChangeNotification, object: nil)
                     }
                 } else {
-                    print("Ссылка на аватар пустая.")
+                    print("[task] url avatar is empty")
                 }
                 
                 completion(.success(userResult))
             } catch {
-                print("Ошибка декодирования: \(error)")
+                print("[task] error form decoder: \(error)")
                 completion(.failure(NetworkError.httpStatusCode(404)))
             }
         }

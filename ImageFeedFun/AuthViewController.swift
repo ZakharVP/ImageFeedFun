@@ -96,10 +96,10 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
                 //UIBlockingProgressHUD.dismiss()
                 switch result {
                 case .success(let token):
-                    print("Токен получен \(token)")
+                    print("[fetchToken] token is received \(token)")
                     self.delegate?.authViewController(self, didAuthenticateWithCode: token)
                 case .failure(let error):
-                    print("Ошибка при получении токена \(error)")
+                    print("[fetchToken] error from receiving token is \(error)")
                     self.showAlert(title: "ОШИБКА", message: "Не удалось получить код доступа")
                 }
             }
@@ -114,7 +114,6 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)
-        //UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true)
         present(alert, animated: true)
     }
     

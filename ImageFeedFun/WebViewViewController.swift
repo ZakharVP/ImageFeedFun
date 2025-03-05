@@ -62,7 +62,7 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
     
     private func loadAuthView(){
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
-            print("Ошибка иницализации urlComponents")
+            print("[loadAuthView] error initialization urlComponents")
             return
         }
         urlComponents.queryItems = [
@@ -72,7 +72,7 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
             URLQueryItem(name: "scope",         value: Constants.accessScope),
         ]
         guard let url = urlComponents.url else {
-            print("Ошибка открытия ссылки")
+            print("[loadAuthView] error open url")
             return
         }
         print(url)
@@ -106,7 +106,7 @@ extension WebViewViewController {
         {
             return codeItem.value
         } else {
-            debugPrint("Код не получен")
+            debugPrint("[code] code not received")
             return nil
         }
     }

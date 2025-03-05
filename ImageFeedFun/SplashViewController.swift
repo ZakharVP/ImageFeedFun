@@ -20,14 +20,14 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool){
         super.viewDidAppear(animated)
         
-        print("Открытие основного окна и выбор экрана от условий")
+        print("[SplashViewController] open main window")
         let nToken = storage.get()
         if let token = nToken, !token.isEmpty {
             fetchFullProfileAndGoToTabBarController(token)
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             guard let vcAuth = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
-                print("Не удалось создать AuthenticationViewController в месте открытия ")
+                print("[SplashViewController] error to create AuthenticationViewController!")
                 return
             }
             vcAuth.delegate = self
@@ -47,7 +47,7 @@ final class SplashViewController: UIViewController {
         //UIApplication.windows must be used from main thread only
         DispatchQueue.main.async {
             guard let window = UIApplication.shared.windows.first else {
-                assertionFailure("Ошибка при открытии первого окна")
+                assertionFailure("[switchToTabBarController] error to open first window")
                 return
             }
             

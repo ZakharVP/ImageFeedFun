@@ -25,9 +25,9 @@ extension URLSession {
                            
             do {
                 if let jsonString = String(data: data, encoding: .utf8) {
-                    print("jsonstring: \(jsonString)")
+                    print("[task] jsonstring: \(jsonString)")
                 } else {
-                    print("Error: invalid JSON")
+                    print("[task] invalid JSON")
                 }
                 
                 let decoder = JSONDecoder()

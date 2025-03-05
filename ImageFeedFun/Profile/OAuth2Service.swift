@@ -32,7 +32,7 @@ final class OAuth2Service {
         }
         
         if task != nil {
-            print("task не пустой")
+            print("[task] task not empty")
             if lastCode != code {
                 task?.cancel()
             } else {
@@ -42,9 +42,9 @@ final class OAuth2Service {
             }
             
         } else {
-            print("task пустой")
+            print("[task] task is empty")
             if lastCode == code {
-                print("task пустой, но значение lastcode \(lastCode)")
+                print("[task] task is empty, but lastcode = \(lastCode)")
                 UIBlockingProgressHUD.dismiss()
                 completion(.failure(NetworkError.httpStatusCode(400)))
                 return
@@ -90,20 +90,20 @@ final class OAuth2Service {
     private func logError(_ error: NetworkError) {
         switch error{
         case .httpStatusCode(let code):
-            print("HTTP ошибка: \n \(code)")
+            print("[task]: network error, status code: \n \(code)")
         case .urlRequestError(let requestError):
-            print("URL ошибка с запросом: \n \(requestError.localizedDescription)")
+            print("[task]: network error with request: \n \(requestError.localizedDescription)")
         case .urlSessionError(let message):
-            print("URL ошибка с сессией: \n \(message)")
+            print("[task]: network error with session: \n \(message)")
         case .invalidRequest:
-            print("URL некоректный запрос по причине: \n")
+            print("[task]: network error invalid request: \n")
         }
     }
     
     private func makeTokenRequest(code: String) -> URLRequest? {
         //TODO Сделать логирование ошибок в консоль // Блок 1. URLComponents
         guard var urlComponents = URLComponents(string: Constants.unsplashGetTokenURLString) else {
-            print("Неправильное имя хоста \n")
+            print("[urlComponents] wrong hostname \n")
             return nil
         }
         
@@ -116,8 +116,7 @@ final class OAuth2Service {
         ]
         
         guard let url = urlComponents.url else {
-            assertionFailure("Не могу создать URL")
-            print("Ошибка при создании url \n")
+            print("[url] cannot build url \n")
             return nil
         }
         

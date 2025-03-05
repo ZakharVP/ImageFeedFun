@@ -42,23 +42,23 @@ final class ProfileViewController: UIViewController {
                 object: nil,
                 queue: .main
             ) { [weak self] _ in
-                print("Уведомление получено")
+                print("[Observer] notifi is received")
                 guard let self = self else {
-                    print("self is nil, контроллер был освобожден")
+                    print("[Observer] self is nil, controller is empty")
                     return
                 }
-                print("self существует, обновляем аватар")
+                print("[Observer] self is in, update avatar")
                 self.updateAvatar()
             }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            print("Проверка отправки наблюдателя. Отправляем уведомление")
+            print("[Observer] check send data")
             NotificationCenter.default.post(name: ProfileImageService.didChangeNotification, object: nil)
         }
         
     }
     private func updateAvatar() {
-        print("Получаем ссылку и загружаем профиль")
+        print("[updateAvatar] get url avatar and update image")
         guard let profileURL = ProfileImageService.shared.profileImageURL else { return}
         profileView?.kf.setImage(with: profileURL)
     }
@@ -163,9 +163,9 @@ final class ProfileViewController: UIViewController {
         //TODO "Something"
         let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: "Auth token")
         if removeSuccessful {
-            print("Ключ удален из хранилища")
+            print("[didTapButton] key is removed form keychain")
         } else {
-            print("Ключ не получилось удалить из хранилища")
+            print("[didTapButton] key could not to be removed form keychain")
         }
     }
 }

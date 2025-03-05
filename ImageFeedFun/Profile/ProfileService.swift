@@ -29,13 +29,13 @@ final class ProfileService {
     private func logError(_ error: NetworkError) {
         switch error{
         case .httpStatusCode(let code):
-            print("HTTP ошибка: \n \(code)")
+            print("[task]: network error, status code: \n \(code)")
         case .urlRequestError(let requestError):
-            print("URL ошибка с запросом: \n \(requestError.localizedDescription)")
+            print("[task]: network error with request: \n \(requestError.localizedDescription)")
         case .urlSessionError(let message):
-            print("URL ошибка с сессией: \n \(message)")
+            print("[task]: network error with session: \n \(message)")
         case .invalidRequest:
-            print("URL некоректный запрос по причине: \n")
+            print("[task]: network error invalid request: \n")
         }
     }
     
@@ -45,15 +45,14 @@ final class ProfileService {
     
     func fetchProfile (_ token: String, completion: @escaping(Result<ProfileResult, NetworkError>) -> Void) {
         
-        print("fetchProfile запущен")
-        //assert(Thread.isMainThread)
+        print("[fetchProfile] fetchProfile is run")
         guard let request = makeProfileRequest() else {
             completion(.failure(NetworkError.invalidRequest))
             return
         }
         
         if task != nil {
-            print("task не пустой")
+            print("[task] task not empty")
             if lastCode != token {
                 task?.cancel()
             } else {
@@ -62,9 +61,9 @@ final class ProfileService {
             }
             
         } else {
-            print("task пустой")
+            print("[task] task is empty")
             if lastCode == token {
-                print("task пустой, но значение lastcode \(lastCode)")
+                print("[task] task is empty and lastcode = \(lastCode)")
                 completion(.failure(NetworkError.httpStatusCode(400)))
                 return
             }
