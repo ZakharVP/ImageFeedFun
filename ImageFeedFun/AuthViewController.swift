@@ -13,6 +13,8 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     private let iView = UIImageView()
     private let button = UIButton(type: .system)
     
+    private let oauth2Service = OAuth2Service.shared
+    
     weak var delegate: AuthViewControllerDelegate?
     
     override func viewDidLoad() {
@@ -73,7 +75,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
             button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
             
-            ])
+        ])
         
     }
     
@@ -84,8 +86,36 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "BlackColorFon")
     }
     
+    func fetchOAuthToken(_ code: String) {
+        //UIBlockingProgressHUD.show()
+        
+        oauth2Service.fetchToken(code) { [weak self] result in
+            guard let self else { return }
+            
+            DispatchQueue.main.async {
+                //UIBlockingProgressHUD.dismiss()
+                switch result {
+                case .success(let token):
+                    print("Токен получен \(token)")
+                    self.delegate?.authViewController(self, didAuthenticateWithCode: token)
+                case .failure(let error):
+                    print("Ошибка при получении токена \(error)")
+                    self.showAlert(title: "ОШИБКА", message: "Не удалось получить код доступа")
+                }
+            }
+        }
+    }
+    
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        delegate?.authViewController(self, didAuthenticateWithCode: code)
+        fetchOAuthToken(code)
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        //UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true)
+        present(alert, animated: true)
     }
     
     @objc private func onButtonTapped() {

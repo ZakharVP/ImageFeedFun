@@ -46,7 +46,7 @@ final class ProfileService {
     func fetchProfile (_ token: String, completion: @escaping(Result<ProfileResult, NetworkError>) -> Void) {
         
         print("fetchProfile запущен")
-        assert(Thread.isMainThread)
+        //assert(Thread.isMainThread)
         guard let request = makeProfileRequest() else {
             completion(.failure(NetworkError.invalidRequest))
             return
@@ -71,10 +71,11 @@ final class ProfileService {
         }
         
         lastCode = token
-        
+        UIBlockingProgressHUD.show()
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             
             DispatchQueue.main.async{
+                UIBlockingProgressHUD.dismiss()
                 switch result {
                 case .success(let responseBody):
                     completion(.success(responseBody))

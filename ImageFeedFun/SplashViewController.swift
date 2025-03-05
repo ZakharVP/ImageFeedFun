@@ -43,13 +43,6 @@ final class SplashViewController: UIViewController {
         view.backgroundColor = .black
     }
     
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default)
-        alert.addAction(okAction)
-        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true)
-    }
-    
     func switchToTabBarController(){
         //UIApplication.windows must be used from main thread only
         DispatchQueue.main.async {
@@ -60,22 +53,6 @@ final class SplashViewController: UIViewController {
             
             let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
             window.rootViewController = tabBarController
-        }
-    }
-    
-    func fetchOAuthToken(_ code: String) {
-        UIBlockingProgressHUD.show() // ProgressHUD.animate()
-        
-        oauth2Service.fetchToken(code) { [weak self] result in
-            guard let self else { return }
-            UIBlockingProgressHUD.dismiss() // ProgressHUD.dismiss()
-            switch result {
-            case .success:
-                fetchFullProfileAndGoToTabBarController(code)
-            case .failure(let error):
-                print("Ошибка при получении токена \(error)")
-                self.showAlert(title: "ОШИБКА", message: "Не удалось получить код доступа")
-            }
         }
     }
 }

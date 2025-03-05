@@ -9,25 +9,21 @@ import Foundation
 extension SplashViewController: AuthViewControllerDelegate {
     
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.fetchOAuthToken(code)
-        }
+        fetchFullProfileAndGoToTabBarController(code)
     }
     
     func fetchFullProfileAndGoToTabBarController(_ token: String) {
         print("Начало получения данных о профиле")
         UIBlockingProgressHUD.show()
-        
         profileService.fetchProfile(token) { [weak self] result in
             
             guard let self = self else { return }
             
             DispatchQueue.main.async {
+                print("Скрываем индикатор загрузки")
                 UIBlockingProgressHUD.dismiss()
                 
                 switch result {
-        
                 case .success:
                     print("Данные профиля получены")
                     if let profileData = try? result.get() {
@@ -41,7 +37,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                     
                 case .failure:
                     print("Ошибка при получении профиля!")
-                    self.showAlert(title: "ОШИБКА", message: "Ошибка при получении профиля")
                     break
                 }
             }
