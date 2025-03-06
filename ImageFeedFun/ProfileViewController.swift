@@ -6,16 +6,23 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
+
+    private let storage = OAuth2TokenStorage()
+    private let profileImageService = ProfileImageService.shared
     
     private var profileView: UIImageView?
     private var fullNameView: UILabel?
     private var mailView: UILabel?
     private var textView: UILabel?
     
-   override func viewDidLoad() {
-       
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
+    override func viewDidLoad() {
+        
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "BlackColorFon")
         
@@ -24,8 +31,42 @@ final class ProfileViewController: UIViewController {
         addFullNameView()
         addMailView()
         addTextView()
+        
+        if let profile = ProfileService.shared.profile {
+            updateProfileDetails(profile: profile)
+        }
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                print("[Observer] notifi is received")
+                guard let self = self else {
+                    print("[Observer] self is nil, controller is empty")
+                    return
+                }
+                print("[Observer] self is in, update avatar")
+                self.updateAvatar()
+            }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            print("[Observer] check send data")
+            NotificationCenter.default.post(name: ProfileImageService.didChangeNotification, object: nil)
+        }
+        
     }
-    
+    private func updateAvatar() {
+        print("[updateAvatar] get url avatar and update image")
+        guard let profileURL = ProfileImageService.shared.profileImageURL else { return}
+        profileView?.kf.setImage(with: profileURL)
+    }
+    private func updateProfileDetails(profile: Profile) {
+        fullNameView?.text  = profile.name
+        mailView?.text      = profile.loginName
+    }
+        
     private func addProfileImageView() {
         
         guard let profileImage = UIImage(named: "profile_photo") else { return}
@@ -34,8 +75,8 @@ final class ProfileViewController: UIViewController {
         profileView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileView)
         
-        profileView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32).isActive = true
-        profileView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
+        profileView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        profileView.topAnchor.constraint(equalTo: view.topAnchor, constant: 76).isActive = true
         profileView.widthAnchor.constraint(equalToConstant: 70).isActive = true
         profileView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
@@ -57,7 +98,7 @@ final class ProfileViewController: UIViewController {
         buttonExit.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonExit)
         
-        buttonExit.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
+        buttonExit.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
         buttonExit.centerYAnchor.constraint(equalTo: profileViewOne.centerYAnchor).isActive = true
         buttonExit.widthAnchor.constraint(equalToConstant: 44).isActive = true
         buttonExit.heightAnchor.constraint(equalToConstant: 44).isActive = true
@@ -74,8 +115,11 @@ final class ProfileViewController: UIViewController {
         fullNameView.text = "Екатерина Новикова"
         view.addSubview(fullNameView)
         
-        fullNameView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        fullNameView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         fullNameView.topAnchor.constraint(equalTo: profileView.bottomAnchor, constant: 8).isActive = true
+        
+        profileView.layer.cornerRadius = 35 // Половина от ширины и высоты, чтобы сделать круг
+        profileView.layer.masksToBounds = true
         
         self.fullNameView = fullNameView
         
@@ -87,10 +131,11 @@ final class ProfileViewController: UIViewController {
         let mailView = UILabel()
         mailView.textColor = UIColor(named: "GrayColorEmailName")
         mailView.translatesAutoresizingMaskIntoConstraints = false
+        mailView.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         mailView.text = "@ekaterina_nov"
         view.addSubview(mailView)
         
-        mailView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        mailView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         mailView.topAnchor.constraint(equalTo: fullNameView.bottomAnchor, constant: 8).isActive = true
         
         self.mailView = mailView
@@ -103,10 +148,12 @@ final class ProfileViewController: UIViewController {
         let textView = UILabel()
         textView.textColor = .white
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         textView.text = "Hello, world"
+        
         view.addSubview(textView)
         
-        textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         textView.topAnchor.constraint(equalTo: mailView.bottomAnchor, constant: 8).isActive = true
         
     }
@@ -114,5 +161,11 @@ final class ProfileViewController: UIViewController {
     @objc
     private func didTapButton() {
         //TODO "Something"
+        let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: "Auth token")
+        if removeSuccessful {
+            print("[didTapButton] key is removed form keychain")
+        } else {
+            print("[didTapButton] key could not to be removed form keychain")
+        }
     }
 }

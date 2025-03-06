@@ -5,8 +5,8 @@
 //  Created by Захар Панченко on 04.10.2024.
 //
 
-import Foundation
 import UIKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
     
@@ -14,31 +14,40 @@ final class SplashViewController: UIViewController {
     private let oauth2Service = OAuth2Service.shared
     private let storage = OAuth2TokenStorage()
     
-    @IBOutlet weak var imageView: UIImageView!
+    let profileService = ProfileService.shared
+    let profile = Profile.self
     
     override func viewDidAppear(_ animated: Bool){
         super.viewDidAppear(animated)
         
-        // Проверка на наличие ключа
-        if storage.token != nil {
-            switchToTabBarController()
+        print("[SplashViewController] open main window")
+        let nToken = storage.get()
+        if let token = nToken, !token.isEmpty {
+            fetchFullProfileAndGoToTabBarController(token)
         } else {
-            performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let vcAuth = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
+                print("[SplashViewController] error to create AuthenticationViewController!")
+                return
+            }
+            vcAuth.delegate = self
+            
+            vcAuth.modalPresentationStyle = .fullScreen
+            self.present(vcAuth, animated: true, completion: nil)
         }
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.backgroundColor = .blackColorFon
+        view.backgroundColor = .black
     }
     
-    private func switchToTabBarController(){
-        
-        //Обернул выполнение в основной поток, так как после выполнения сетевого запроса получаю ошибку
+    func switchToTabBarController(){
         //UIApplication.windows must be used from main thread only
         DispatchQueue.main.async {
             guard let window = UIApplication.shared.windows.first else {
-                assertionFailure("Invalid window configuration")
+                assertionFailure("[switchToTabBarController] error to open first window")
                 return
             }
             
@@ -46,50 +55,6 @@ final class SplashViewController: UIViewController {
             window.rootViewController = tabBarController
         }
     }
-    
-    func fetchOAuthToken(_ code: String) {
-        oauth2Service.fetchToken(code) { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .success:
-                self.switchToTabBarController()
-            case .failure(let error):
-                print("fetch token error \(error)")
-            }
-        }
-    }
 }
-
-extension SplashViewController: AuthViewControllerDelegate {
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.fetchOAuthToken(code)
-        }
-    }
-}
-
-extension SplashViewController {
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == showAuthenticationScreenSegueIdentifier {
-            guard
-                let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else {
-                assertionFailure("Failed to prepare for  \(showAuthenticationScreenSegueIdentifier)")
-                return
-            }
-            viewController.delegate = self
-        }
-        else {
-            super.prepare(for: segue, sender: sender)
-        }
-    }
-}
-
-
-    
 
 
