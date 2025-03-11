@@ -25,6 +25,7 @@ final class ImagesListService {
     func fetchPhotosNextPage() {
 
         let nextPage = (lastLoadedPage ?? 0) + 1
+        print("[fetchPhotosNextPage] cuttent page \(nextPage)")
 
         // Проверить существование Таск
         guard currentTask == nil else { return }
