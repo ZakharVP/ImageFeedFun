@@ -50,10 +50,20 @@ final class ImagesListService {
                 return
             }
 
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+
             do {
-                let newPhotos = try JSONDecoder().decode(
+
+                let newPhotos = try decoder.decode(
                     [Photo].self, from: data)
-                self?.photos.append(contentsOf: newPhotos)
+
+                // Создаем Set из существующих id
+                let existingIDs = Set(self?.photos.map { $0.id } ?? [])
+                let uniqueNewPhotos = newPhotos.filter {
+                    !existingIDs.contains($0.id)
+                }
+                self?.photos.append(contentsOf: uniqueNewPhotos)
                 self?.lastLoadedPage = nextPage
 
                 NotificationCenter.default.post(
@@ -68,4 +78,62 @@ final class ImagesListService {
         currentTask?.resume()
     }
 
+    // Метод для добавления лайка
+    func likePhoto(
+        photoId: String, completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        // Отправляем POST-запрос на сервер
+        guard
+            let request = URLRequest.makeHTTPRequest(
+                path: "/photos" + "/\(photoId)" + "/like",
+                httpMethod: "POST",
+                baseURLString: Constants.defaultBaseUrl)
+        else {
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                print(
+                    "[likePhoto] error \(error) adding like for photo \(photoId)"
+                )
+            } else {
+                completion(.success(()))
+                print("[likePhoto] like added for photo \(photoId)")
+            }
+        }.resume()
+    }
+
+    // Метод для удаления лайка
+    func unlikePhoto(
+        photoId: String, completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        // Отправляем DELETE-запрос на сервер
+        guard
+            let request = URLRequest.makeHTTPRequest(
+                path: "/photos" + "/\(photoId)" + "/like",
+                httpMethod: "DELETE",
+                baseURLString: Constants.defaultBaseUrl)
+        else {
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                print(
+                    "[likePhoto] like error \(error) deleted for photo \(photoId)"
+                )
+            } else {
+                completion(.success(()))
+                print("[likePhoto] like deleted for photo \(photoId)")
+            }
+        }.resume()
+
+    }
+
+    func clearData() {
+        photos.removeAll()
+    }
 }

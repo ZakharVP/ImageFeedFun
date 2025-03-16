@@ -10,16 +10,21 @@ import UIKit
 
 extension ImagesListViewController {
     
-    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        guard let image = UIImage(named: photosName[indexPath.row]) else {
-            return
-        }
+    
+    
+   // func configCell(with photo: Photo, dateFormater: DateFormatter) {
         
-        cell.imageLabel.image = image
-        cell.dateTextLabel.text = dateFormatter.string(from: currentDate)
         
-        let isLiked = indexPath.row % 2 == 0
-        let likeImage = isLiked ? UIImage(named: "Favorite") : UIImage(named: "noActive")
-        cell.likeButton.setImage(likeImage, for: .normal)
-    }
+        
+//        guard let image = UIImage(named: photosName[indexPath.row]) else {
+//            return
+//        }
+//        
+//        cell.imageLabel.image = image
+//        cell.dateTextLabel.text = dateFormatter.string(from: currentDate)
+//        
+//        let isLiked = indexPath.row % 2 == 0
+//        let likeImage = isLiked ? UIImage(named: "Favorite") : UIImage(named: "noActive")
+//        cell.likeButton.setImage(likeImage, for: .normal)
+  //  }
 }

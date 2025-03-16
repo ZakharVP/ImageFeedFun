@@ -33,6 +33,8 @@ extension SplashViewController: AuthViewControllerDelegate {
                         ProfileImageService.shared.fetchProfileImageURL(username: username) { _ in}
                     }
                     self.switchToTabBarController()
+                    print("[fetchProfile] start fetch photos")
+                    ImagesListService.shared.fetchPhotosNextPage()
                     
                 case .failure:
                     print("[fetchProfile] error from received data profile!")

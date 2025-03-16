@@ -51,7 +51,10 @@
                                                         <constraint firstAttribute="height" constant="44" id="Zl3-Nc-Jkh"/>
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" image="Favorite" title=" "/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="noActive" title=" "/>
+                                                    <connections>
+                                                        <action selector="likeButtonClicked:" destination="pfT-rt-4b8" eventType="touchUpInside" id="dLq-Nf-7rn"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -133,8 +136,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" minimumZoomScale="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="1cr-2T-my4">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="852"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="hK1-FQ-J7J">
-                                        <rect key="frame" x="8" y="8" width="304" height="308"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="hK1-FQ-J7J">
+                                        <rect key="frame" x="0.0" y="0.0" width="389" height="852"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
@@ -288,9 +291,9 @@
     <resources>
         <image name="0" width="1600" height="1059"/>
         <image name="Backward" width="24" height="24"/>
-        <image name="Favorite" width="30" height="26"/>
         <image name="folders" width="75" height="49"/>
         <image name="nav_back_button" width="24" height="24"/>
+        <image name="noActive" width="30" height="26"/>
         <image name="share_button" width="50" height="50"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
