@@ -63,11 +63,16 @@ final class ImagesListService {
                 let uniqueNewPhotos = newPhotos.filter {
                     !existingIDs.contains($0.id)
                 }
-                self?.photos.append(contentsOf: uniqueNewPhotos)
-                self?.lastLoadedPage = nextPage
 
-                NotificationCenter.default.post(
-                    name: ImagesListService.didChangeNotification, object: self)
+                DispatchQueue.main.async {
+                    self?.photos.append(contentsOf: uniqueNewPhotos)
+                    self?.lastLoadedPage = nextPage
+
+                    NotificationCenter.default.post(
+                        name: ImagesListService.didChangeNotification,
+                        object: self)
+                }
+
             } catch {
                 print("[fetchPhotosNextPage] error decoding JSON: \(error)")
                 return
