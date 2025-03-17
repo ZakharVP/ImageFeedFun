@@ -94,7 +94,7 @@ final class ImagesListCell: UITableViewCell {
         }
         isLiked = photo.isLiked
         print("[configCell] isLiked: \(isLiked)")
-        updateLikeButton()
+        setIsLiked()
     }
 
     @objc private func handelImageTapped() {
@@ -102,7 +102,7 @@ final class ImagesListCell: UITableViewCell {
         imageTapped?()  // Вызываем замыкание, если оно установлено
     }
 
-    private func updateLikeButton() {
+    private func setIsLiked() {
         let likeImage =
             isLiked ? UIImage(named: "Favorite") : UIImage(named: "noActive")
         likeButton.setImage(likeImage, for: .normal)
@@ -110,7 +110,7 @@ final class ImagesListCell: UITableViewCell {
 
     @IBAction private func likeButtonClicked(_ sender: UIButton) {
         isLiked.toggle()
-        updateLikeButton()
+        setIsLiked()
         likeButtonTapped?(isLiked)  // Вызываем замыкание
     }
 
