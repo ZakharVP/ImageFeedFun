@@ -9,8 +9,7 @@ import Foundation
 final class ImagesListService {
 
     static let shared = ImagesListService()
-    static let didChangeNotification = Notification.Name(
-        rawValue: "ImagesListServiceDidChange")
+    static let didChangeNotification = Notification.Name("ImagesListServiceDidChange")
     private(set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
     private var currentTask: URLSessionDataTask?
@@ -37,8 +36,6 @@ final class ImagesListService {
 
         currentTask = URLSession.shared.dataTask(with: request) {
             [weak self] data, _, error in
-
-            defer { self?.currentTask = nil }
 
             if let error = error {
                 print("[fetchPhotosNextPage] error fetching photos\(error)")
@@ -71,6 +68,8 @@ final class ImagesListService {
                     NotificationCenter.default.post(
                         name: ImagesListService.didChangeNotification,
                         object: self)
+                    
+                    self?.currentTask = nil
                 }
 
             } catch {

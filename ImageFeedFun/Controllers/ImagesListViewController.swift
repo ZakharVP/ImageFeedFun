@@ -11,7 +11,7 @@ import UIKit
 final class ImagesListViewController: UIViewController {
 
     let showSingleImageSegueIdentifier = "ShowSingleImage"
-    let currentDate = Date()
+    
     lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMMM yyyy"
