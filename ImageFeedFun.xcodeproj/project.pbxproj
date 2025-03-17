@@ -47,6 +47,7 @@
 		31A090442D65202900DFA357 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 31A090432D65202900DFA357 /* Kingfisher */; };
 		31A090462D65340700DFA357 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 31A090452D65340700DFA357 /* Kingfisher */; };
 		31A090492D65341800DFA357 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 31A090482D65341800DFA357 /* SwiftKeychainWrapper */; };
+		31B40D472D88A4630070AFE6 /* JSONDecoder+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B40D462D88A4630070AFE6 /* JSONDecoder+Ext.swift */; };
 		31C83D292C849BAB007FCA56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 318918F52C7D0EB0009312AD /* Main.storyboard */; };
 		31C83D552C87A724007FCA56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 318918FA2C7D0EB2009312AD /* LaunchScreen.storyboard */; };
 		31CEE20E2D6B972300BC598E /* No Active.svg in Resources */ = {isa = PBXBuildFile; fileRef = 31CEE20D2D6B972300BC598E /* No Active.svg */; };
@@ -93,6 +94,7 @@
 		318918F82C7D0EB2009312AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		318918FB2C7D0EB2009312AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		318918FD2C7D0EB2009312AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		31B40D462D88A4630070AFE6 /* JSONDecoder+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Ext.swift"; sourceTree = "<group>"; };
 		31CEE20D2D6B972300BC598E /* No Active.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "No Active.svg"; sourceTree = "<group>"; };
 		31E898B42D87671D0045A9AE /* ProfileLogoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLogoutService.swift; sourceTree = "<group>"; };
 		31FB81C12D83687700F52B8B /* PhotoLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLinks.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				310F12A82D80C1DA00923EDA /* ImagesListControllerExt */,
+				31B40D462D88A4630070AFE6 /* JSONDecoder+Ext.swift */,
 				310F12A92D80C1DA00923EDA /* Splash+Ext.swift */,
 				310F12AA2D80C1DA00923EDA /* Profile+Ext.swift */,
 				310F12AB2D80C1DA00923EDA /* URLRequest+Ext.swift */,
@@ -343,6 +346,7 @@
 				310F12CF2D80C1DA00923EDA /* Profile.swift in Sources */,
 				310F12D02D80C1DA00923EDA /* Photo.swift in Sources */,
 				310F12D22D80C1DA00923EDA /* OAuth2Service.swift in Sources */,
+				31B40D472D88A4630070AFE6 /* JSONDecoder+Ext.swift in Sources */,
 				310F12D32D80C1DA00923EDA /* ImagesListCell.swift in Sources */,
 				310F12D42D80C1DA00923EDA /* UIBlockingProgressHUD.swift in Sources */,
 				31E898B52D87672F0045A9AE /* ProfileLogoutService.swift in Sources */,

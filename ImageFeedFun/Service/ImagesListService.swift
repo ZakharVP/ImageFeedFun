@@ -50,8 +50,7 @@ final class ImagesListService {
                 return
             }
 
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .iso8601
+            let decoder = JSONDecoder.iso8601Custom
 
             do {
 

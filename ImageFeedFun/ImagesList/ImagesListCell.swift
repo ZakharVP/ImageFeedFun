@@ -34,8 +34,11 @@ final class ImagesListCell: UITableViewCell {
     }
 
     func configCell(with photo: Photo, dateFormatter: DateFormatter) {
-        dateTextLabel.text = dateFormatter.string(
-            from: photo.createdAt ?? Date())
+        if let createdAtDate = photo.createdAt {
+            dateTextLabel.text = dateFormatter.string(from: createdAtDate)
+        } else {
+            dateTextLabel.text = Date().description
+        }
 
         let placeholderImage = UIImage(named: "card_placeholder")
         imageLabel.image = placeholderImage
