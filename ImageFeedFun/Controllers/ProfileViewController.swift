@@ -186,7 +186,7 @@ final class ProfileViewController: UIViewController {
     private func didTapButton() {
         // Создаем алерт с вопросом
         let alert = UIAlertController(
-            title: "Пока, пока",
+            title: "Пока, пока!",
             message: "Уверены, что хотите выйти?",
             preferredStyle: .alert
         )

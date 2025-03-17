@@ -44,6 +44,8 @@ final class SingleImageViewController: UIViewController {
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 3.0
         scrollView.delegate = self
+        
+        configScrollView()
 
         // Настройка imageView
         imageView.contentMode = .scaleAspectFit
@@ -51,6 +53,24 @@ final class SingleImageViewController: UIViewController {
         loadImage()
 
     }
+    
+    private func configScrollView() {
+          scrollView.contentInsetAdjustmentBehavior = .never
+          imageView.translatesAutoresizingMaskIntoConstraints = false
+          NSLayoutConstraint.activate([
+              scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+              scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+              scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+              scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+          ])
+          
+          NSLayoutConstraint.activate([
+              imageView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+              imageView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+              imageView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+              imageView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor)
+          ])
+      }
 
     private func loadImage() {
         DispatchQueue.main.async {
@@ -69,7 +89,7 @@ final class SingleImageViewController: UIViewController {
                 switch result {
                 case .success(let value):
                     print("[loadImage] Image loaded successfully:")
-                //self?.rescaleAndCenterImageInScrollView(image: value.image)
+                self?.rescaleAndCenterImageInScrollView(image: value.image)
                 case .failure(let error):
                     print(
                         "[loadImage] Failed to load image: \(error.localizedDescription)"
@@ -93,7 +113,7 @@ final class SingleImageViewController: UIViewController {
 
         let hScale = visibleRectSize.width / imageSize.width
         let vScale = visibleRectSize.height / imageSize.height
-        let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
+        let scale = min(maxZoomScale, max(minZoomScale, max(hScale, vScale)))
 
         // Устанавливаем масштаб
         scrollView.setZoomScale(scale, animated: false)
