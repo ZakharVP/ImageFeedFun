@@ -5,7 +5,7 @@
 //  Created by Захар Панченко on 09.03.2025.
 //
 
-struct PhotoURLs: Codable{
+struct UrlsResult: Codable{
     let raw: String
     let full: String
     let regular: String

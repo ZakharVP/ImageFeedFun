@@ -30,7 +30,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                         print("[fetchProfile] data profile is decoded")
                         ProfileService.shared.updateProfile(nProfile)
                         let username = nProfile.loginName
-                        ProfileImageService.shared.fetchProfileImageURL(username: username) { _ in}
+                        ProfileImageService.shared.fetchProfileImageURL(username: username ?? "") { _ in}
                     }
                     self.switchToTabBarController()
                     print("[fetchProfile] start fetch photos")

@@ -8,6 +8,6 @@
 struct Profile: Codable {
     let username: String    // Логин
     let name: String        // Имя и Фамилия
-    let loginName: String   // Логин со знаком @
+    let loginName: String?   // Логин со знаком @
     let bio: String?        // 
 }

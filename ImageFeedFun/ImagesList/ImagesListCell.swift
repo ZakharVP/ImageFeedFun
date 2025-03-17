@@ -49,8 +49,7 @@ final class ImagesListCell: UITableViewCell {
         imageLabel.isUserInteractionEnabled = true
         imageLabel.addGestureRecognizer(tapGestureRecognizer)
 
-        if let thumbImageURL = photo.urls.thumb,
-            let url = URL(string: thumbImageURL)
+        if !photo.thumbImageURL.isEmpty, let url = URL(string: photo.thumbImageURL)
         {
             if currentImageURL != url {
                 currentImageURL = url
@@ -93,7 +92,7 @@ final class ImagesListCell: UITableViewCell {
             print("[configCell] No image URL provided [thumbImageURL]")
             imageLabel.image = placeholderImage
         }
-        isLiked = photo.likedByUser
+        isLiked = photo.isLiked
         print("[configCell] isLiked: \(isLiked)")
         updateLikeButton()
     }

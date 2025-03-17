@@ -50,12 +50,13 @@ final class ImagesListService {
                 return
             }
 
-            let decoder = JSONDecoder.iso8601Custom
+            let decoder = JSONDecoder()
 
             do {
 
-                let newPhotos = try decoder.decode(
-                    [Photo].self, from: data)
+                let newPhotosResults = try decoder.decode(
+                    [PhotoResult].self, from: data)
+                let newPhotos = newPhotosResults.map { $0.toPhoto() }
 
                 // Создаем Set из существующих id
                 let existingIDs = Set(self?.photos.map { $0.id } ?? [])

@@ -80,7 +80,7 @@ extension ImagesListViewController: UITableViewDataSource, UITableViewDelegate {
                     switch result {
                     case .success:
                         print("Лайк успешно добавлен")
-                        self.photos[indexPath.row].likedByUser = true
+                        self.photos[indexPath.row].isLiked = true
                     case .failure(let error):
                         print("Ошибка при добавлении лайка: \(error)")
                     }
@@ -95,7 +95,7 @@ extension ImagesListViewController: UITableViewDataSource, UITableViewDelegate {
                     switch result {
                     case .success:
                         print("Лайк успешно удален")
-                        self.photos[indexPath.row].likedByUser = false
+                        self.photos[indexPath.row].isLiked = false
                     case .failure(let error):
                         print("Ошибка при удалении лайка: \(error)")
                     }

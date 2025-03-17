@@ -10,15 +10,15 @@ struct PhotoResult: Codable {
     let id: String
     let createdAt: String
     let updateAt: String?
-    let width: String?
-    let height: String?
+    let width: Int?
+    let height: Int?
     let color: String?
     let blurHash: String?
     let likes: Int?
     let likedByUser: Bool?
     let description: String?
     let user: Profile?
-    let urls: PhotoURLs?
+    let urls: UrlsResult?
     
     enum CodingKeys: String, CodingKey {
         case id
