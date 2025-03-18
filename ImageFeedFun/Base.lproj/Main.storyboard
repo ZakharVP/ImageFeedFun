@@ -51,7 +51,10 @@
                                                         <constraint firstAttribute="height" constant="44" id="Zl3-Nc-Jkh"/>
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" image="Favorite" title=" "/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="noActive" title=" "/>
+                                                    <connections>
+                                                        <action selector="likeButtonClicked:" destination="pfT-rt-4b8" eventType="touchUpInside" id="dLq-Nf-7rn"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -93,7 +96,7 @@
                             <constraint firstItem="9sN-3N-l7U" firstAttribute="top" secondItem="rho-8W-Epd" secondAttribute="top" id="lAo-DN-sss"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="folders" id="UTE-Nz-V2M"/>
+                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="UTE-Nz-V2M"/>
                     <navigationItem key="navigationItem" id="O4D-fo-8WV"/>
                     <connections>
                         <outlet property="tableView" destination="9sN-3N-l7U" id="hp3-h6-t6C"/>
@@ -131,17 +134,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" minimumZoomScale="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="1cr-2T-my4">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="852"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="hK1-FQ-J7J">
-                                        <rect key="frame" x="8" y="8" width="304" height="308"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="7XW-Ne-YaZ" userLabel="Image View">
+                                        <rect key="frame" x="61" y="250" width="271" height="352"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
                                 <viewLayoutGuide key="contentLayoutGuide" id="o5g-uW-qQO"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="oxi-tU-teL"/>
                                 <connections>
-                                    <outlet property="delegate" destination="On0-w7-HRN" id="FmA-H3-e90"/>
+                                    <outlet property="delegate" destination="On0-w7-HRN" id="LAE-Si-QxF"/>
                                 </connections>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MpU-qf-rj0" userLabel="ButtonBack">
@@ -184,7 +187,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="2bk-MR-I5L"/>
                     <connections>
-                        <outlet property="imageView" destination="hK1-FQ-J7J" id="0cV-MR-7u3"/>
+                        <outlet property="imageView" destination="7XW-Ne-YaZ" id="3Ey-93-hwQ"/>
                         <outlet property="scrollView" destination="1cr-2T-my4" id="Ney-cq-fUF"/>
                     </connections>
                 </viewController>
@@ -288,10 +291,10 @@
     <resources>
         <image name="0" width="1600" height="1059"/>
         <image name="Backward" width="24" height="24"/>
-        <image name="Favorite" width="30" height="26"/>
-        <image name="folders" width="75" height="49"/>
         <image name="nav_back_button" width="24" height="24"/>
+        <image name="noActive" width="30" height="26"/>
         <image name="share_button" width="50" height="50"/>
+        <image name="tab_editorial_active" width="30" height="30"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
