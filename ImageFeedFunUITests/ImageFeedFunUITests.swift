@@ -34,7 +34,7 @@ final class ImageFeedFunUITests: XCTestCase {
             loginTextField.waitForExistence(timeout: 10),
             "Поле для ввода логина не появилось")
         loginTextField.tap()
-        loginTextField.typeText("zakhar-panchenko@yandex.ru")
+        loginTextField.typeText("")
         webView.tap()
 
         // Вводим пароль
@@ -44,7 +44,7 @@ final class ImageFeedFunUITests: XCTestCase {
             passwordTextField.waitForExistence(timeout: 10),
             "Поле для ввода пароля не появилось")
         passwordTextField.tap()
-        passwordTextField.typeText("Freelander2016en")
+        passwordTextField.typeText("")
         sleep(2)
         webView.tap() // Скрыть клавиатуру
         
@@ -98,8 +98,8 @@ final class ImageFeedFunUITests: XCTestCase {
         sleep(5)
         app.tabBars.buttons.element(boundBy: 1).tap()
 
-        XCTAssertTrue(app.staticTexts["Захар Панченко"].exists)
-        XCTAssertTrue(app.staticTexts["@trit5"].exists)
+        XCTAssertTrue(app.staticTexts[""].exists)
+        XCTAssertTrue(app.staticTexts[""].exists)
         
         sleep(15)
 
