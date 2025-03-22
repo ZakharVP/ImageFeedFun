@@ -29,7 +29,7 @@ final class ProfileImageService {
         return URLRequest.makeHTTPRequest(
             path: "/users/\(username)",
             httpMethod: "Get",
-            baseURLString: Constants.defaultBaseUrl)
+            baseURLString: Constants.defaultBaseUrl.absoluteString)
     }
 
     func fetchProfileImageURL(
@@ -88,7 +88,7 @@ final class ProfileImageService {
                     print("[task] url avatar has loaded: \(smallImageURL)")
 
                     DispatchQueue.main.async {
-                        print("[task] send notification to load avatar")
+                        print("[task] Sending notification to load avatar")
                         NotificationCenter.default.post(
                             name: ProfileImageService.didChangeNotification,
                             object: nil)

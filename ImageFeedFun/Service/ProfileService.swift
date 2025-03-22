@@ -23,7 +23,7 @@ final class ProfileService {
         URLRequest.makeHTTPRequest(
             path: "/me",
             httpMethod: "Get",
-            baseURLString: Constants.defaultBaseUrl)
+            baseURLString: Constants.defaultBaseUrl.absoluteString)
     }
 
     private func logError(_ error: NetworkError) {

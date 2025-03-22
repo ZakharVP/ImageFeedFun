@@ -15,3 +15,7 @@ extension Profile {
         )
     }
 }
+
+extension ProfileService: ProfileServiceProtocol {}
+extension ProfileLogoutService: ProfileLogoutServiceProtocol {}
+extension OAuth2TokenStorage: OAuth2TokenStorageProtocol {}

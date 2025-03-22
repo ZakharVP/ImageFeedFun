@@ -9,23 +9,23 @@ import Kingfisher
 import SwiftKeychainWrapper
 import UIKit
 
-final class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController,
+    ProfileViewControllerProtocol
+{
 
-    private let storage = OAuth2TokenStorage()
-    private let profileImageService = ProfileImageService.shared
-    private let profileLogoutService = ProfileLogoutService.shared
+    var presenter: (any ProfileViewPresenterProtocol)?
 
     private var profileView: UIImageView?
     private var fullNameView: UILabel?
     private var mailView: UILabel?
     private var textView: UILabel?
 
-    private var profileImageServiceObserver: NSObjectProtocol?
-
     override func viewDidLoad() {
 
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "BlackColorFon")
+
+        print("[ProfileViewController] Добавляем элементы на экран")
 
         addProfileImageView()
         addButtonExitView()
@@ -33,48 +33,47 @@ final class ProfileViewController: UIViewController {
         addMailView()
         addTextView()
 
-        if let profile = ProfileService.shared.profile {
-            updateProfileDetails(profile: profile)
-        }
-
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                print("[Observer] notifi is received")
-                guard let self = self else {
-                    print("[Observer] self is nil, controller is empty")
-                    return
-                }
-                print("[Observer] self is in, update avatar")
-                self.updateAvatar()
-            }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            print("[Observer] check send data")
-            NotificationCenter.default.post(
-                name: ProfileImageService.didChangeNotification, object: nil)
-        }
+        presenter?.view = self
+        presenter?.viewDidLoad()
 
     }
-    private func updateAvatar() {
-        print("[updateAvatar] get url avatar and update image")
-        guard let profileURL = ProfileImageService.shared.profileImageURL else {
-            return
-        }
-        profileView?.kf.setImage(with: profileURL)
+
+    deinit {
+        print("[ProfileViewController] Deinitialized")
     }
-    private func updateProfileDetails(profile: Profile) {
+
+    @objc
+    private func didTapButton() {
+        presenter?.didTapLogoutButton()
+    }
+
+    func updateProfileDetails(profile: Profile) {
+        print("[updateProfileDetails] Запущен")
         fullNameView?.text = profile.name
         mailView?.text = profile.loginName
     }
 
+    func updateAvatar(with url: URL) {
+        print("[updateAvatar] Запущен")
+        DispatchQueue.main.async {
+            self.profileView?.kf.setImage(
+                with: url, placeholder: UIImage(named: "profile_placeholder"))
+        }
+
+    }
+
+    func switchToSplashViewController() {
+        let splashViewController = SplashViewController()
+        guard let window = UIApplication.shared.windows.first else {
+            assertionFailure("Не удалось получить окно")
+            return
+        }
+        window.rootViewController = splashViewController
+    }
+
     private func addProfileImageView() {
 
-        guard let profileImage = UIImage(named: "profile_photo") else { return }
-        let profileView = UIImageView(image: profileImage)
+        let profileView = UIImageView()
         profileView.tintColor = .gray
         profileView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileView)
@@ -104,6 +103,7 @@ final class ProfileViewController: UIViewController {
 
         buttonExit.tintColor = UIColor(named: "RedColorExitButton")
         buttonExit.translatesAutoresizingMaskIntoConstraints = false
+        buttonExit.accessibilityIdentifier = "logout button"
         view.addSubview(buttonExit)
 
         buttonExit.trailingAnchor.constraint(
@@ -181,60 +181,5 @@ final class ProfileViewController: UIViewController {
         ).isActive = true
 
     }
-
-    @objc
-    private func didTapButton() {
-        // Создаем алерт с вопросом
-        let alert = UIAlertController(
-            title: "Пока, пока!",
-            message: "Уверены, что хотите выйти?",
-            preferredStyle: .alert
-        )
-
-        // Действие "Да"
-        let yesAction = UIAlertAction(title: "Да", style: .default) {
-            [weak self] _ in
-            guard let self = self else { return }
-
-            // Удаляем токен из Keychain
-            let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(
-                forKey: "Auth token")
-            if removeSuccessful {
-                print("[didTapButton] key is removed form keychain")
-            } else {
-                print(
-                    "[didTapButton] key could not to be removed form keychain")
-            }
-
-            // Очищаем все данные через сервис
-            self.profileLogoutService.logout()
-
-            // Переходим на стартовый экран (SplashViewController)
-            self.switchToSplashViewController()
-        }
-        
-        // Действие "Нет"
-        let noAction = UIAlertAction(title: "Нет", style: .cancel, handler: nil)
-
-        // Добавляем действия в алерт
-        alert.addAction(yesAction)
-        alert.addAction(noAction)
-        
-
-        // Показываем алерт
-        present(alert, animated: true, completion: nil)
-    }
-
-    private func switchToSplashViewController() {
-        // Создаем экземпляр SplashViewController
-        let splashViewController = SplashViewController()
-
-        // Устанавливаем его как корневой контроллер окна
-        guard let window = UIApplication.shared.windows.first else {
-            assertionFailure("Не удалось получить окно")
-            return
-        }
-
-        window.rootViewController = splashViewController
-    }
 }
+

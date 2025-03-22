@@ -77,7 +77,7 @@ final class ImagesListCell: UITableViewCell {
 
                             // Сохраняем высоту ячейки в кэше
                             (tableView.delegate as? ImagesListViewController)?
-                                .cellHeights[indexPath] = cellHeight
+                                .presenter.cellHeights[indexPath] = cellHeight
 
                             // Обновляем высоту ячейки
                             tableView.beginUpdates()
@@ -93,7 +93,6 @@ final class ImagesListCell: UITableViewCell {
             imageLabel.image = placeholderImage
         }
         isLiked = photo.isLiked
-        print("[configCell] isLiked: \(isLiked)")
         setIsLiked()
     }
 

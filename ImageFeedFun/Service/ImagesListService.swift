@@ -18,10 +18,10 @@ final class ImagesListService {
         URLRequest.makeHTTPRequest(
             path: "/photos" + "?page=\(numberPage)" + "&per_page=10",
             httpMethod: "GET",
-            baseURLString: Constants.defaultBaseUrl)
+            baseURLString: Constants.defaultBaseUrl.absoluteString)
     }
 
-    func fetchPhotosNextPage() {
+    func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void) {
 
         let nextPage = (lastLoadedPage ?? 0) + 1
         print("[fetchPhotosNextPage] cuttent page \(nextPage)")
@@ -91,7 +91,7 @@ final class ImagesListService {
             let request = URLRequest.makeHTTPRequest(
                 path: "/photos" + "/\(photoId)" + "/like",
                 httpMethod: "POST",
-                baseURLString: Constants.defaultBaseUrl)
+                baseURLString: Constants.defaultBaseUrl.absoluteString)
         else {
             return
         }
@@ -118,7 +118,7 @@ final class ImagesListService {
             let request = URLRequest.makeHTTPRequest(
                 path: "/photos" + "/\(photoId)" + "/like",
                 httpMethod: "DELETE",
-                baseURLString: Constants.defaultBaseUrl)
+                baseURLString: Constants.defaultBaseUrl.absoluteString)
         else {
             return
         }
@@ -141,3 +141,4 @@ final class ImagesListService {
         photos.removeAll()
     }
 }
+

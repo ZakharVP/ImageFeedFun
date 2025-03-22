@@ -7,21 +7,25 @@
 import Foundation
 
 extension SplashViewController: AuthViewControllerDelegate {
-    
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+
+    func authViewController(
+        _ vc: AuthViewController, didAuthenticateWithCode code: String
+    ) {
         fetchFullProfileAndGoToTabBarController(code)
     }
-    
+
     func fetchFullProfileAndGoToTabBarController(_ token: String) {
-        print("[fetchFullProfileAndGoToTabBarController] begin fetch data profile")
+        print(
+            "[fetchFullProfileAndGoToTabBarController] begin fetch data profile"
+        )
         UIBlockingProgressHUD.show()
         profileService.fetchProfile(token) { [weak self] result in
-            
+
             guard let self = self else { return }
-            
+
             DispatchQueue.main.async {
                 UIBlockingProgressHUD.dismiss()
-                
+
                 switch result {
                 case .success:
                     print("[fetchProfile] data profile is received")
@@ -30,12 +34,21 @@ extension SplashViewController: AuthViewControllerDelegate {
                         print("[fetchProfile] data profile is decoded")
                         ProfileService.shared.updateProfile(nProfile)
                         let username = nProfile.loginName
-                        ProfileImageService.shared.fetchProfileImageURL(username: username ?? "") { _ in}
+                        ProfileImageService.shared.fetchProfileImageURL(
+                            username: username ?? ""
+                        ) { _ in }
                     }
                     self.switchToTabBarController()
                     print("[fetchProfile] start fetch photos")
-                    ImagesListService.shared.fetchPhotosNextPage()
-                    
+                    ImagesListService.shared.fetchPhotosNextPage { result in
+                        switch result {
+                        case .success(let photos):
+                            print("[fetchProfile] Successfully fetched \(photos.count) photos")
+                        case .failure(let error):
+                            print("[fetchProfile] Failed to fetch photos: \(error)")
+                        }
+                    }
+
                 case .failure:
                     print("[fetchProfile] error from received data profile!")
                     break
