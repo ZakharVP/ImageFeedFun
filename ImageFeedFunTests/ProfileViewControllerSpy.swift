@@ -10,10 +10,10 @@ final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
 
     var updateProfileDetailsCalled = false
     var updateAvatarCalled = false
-    var switchToSplashViewControllerCalled = false
+    var isSwitchToSplashViewControllerCalled = false
     var presenter: ProfileViewPresenterProtocol?
     var showAlertCalled = false
-    var passedAlert: UIAlertController?
+    var presentedAlert: UIAlertController?
 
 
     func updateProfileDetails(profile: Profile) {
@@ -25,12 +25,20 @@ final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
     }
 
     func switchToSplashViewController() {
-        switchToSplashViewControllerCalled = true
+        isSwitchToSplashViewControllerCalled = true
     }
     
     func showAlert(_ alert: UIAlertController) {
-           showAlertCalled = true
-           passedAlert = alert // Сохраняем переданный алерт для проверки
+        showAlertCalled = true
+        presentedAlert = alert // Сохраняем переданный алерт для проверки
        }
     
+}
+
+extension UIAlertAction {
+    func performAction() {
+        if let handler = self.value(forKey: "handler") as? () -> Void {
+            handler()
+        }
+    }
 }

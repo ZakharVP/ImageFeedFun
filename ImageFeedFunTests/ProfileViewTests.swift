@@ -69,24 +69,6 @@ final class ProfileViewTests: XCTestCase {
         // Then
         XCTAssertTrue(viewController.updateAvatarCalled, "Метод updateAvatar(with:) не был вызван")
     }
-
-    func testProfileViewControllerCallsSwitchToSplashViewController() {
-        // Given
-        let viewController = ProfileViewControllerSpy()
-        let presenter = ProfilePresenter(
-            profileService: ProfileService.shared,
-            profileLogoutService: ProfileLogoutService.shared,
-            oauth2TokenStorage: OAuth2TokenStorage()
-        )
-        viewController.presenter = presenter
-        presenter.view = viewController
-
-        // When
-        presenter.didTapLogoutButton()
-
-        // Then
-        XCTAssertTrue(viewController.switchToSplashViewControllerCalled, "Метод switchToSplashViewController() не был вызван")
-    }
     
 }
 

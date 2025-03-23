@@ -19,6 +19,7 @@ final class ImageFeedFunUITests: XCTestCase {
     }
 
     func testAuth() throws {
+        
         app.buttons["Authenticate"].tap()
 
         // Ожидаем появления webView
@@ -35,18 +36,16 @@ final class ImageFeedFunUITests: XCTestCase {
             loginTextField.waitForExistence(timeout: 10),
             "Поле для ввода логина не появилось")
         loginTextField.tap()
-        loginTextField.typeText("")
+        loginTextField.typeText("zakhar-panchenko@yandex.ru")
         webView.tap()
 
         // Вводим пароль
-        let passwordTextField = webView.descendants(matching: .secureTextField)
-            .element
+        let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(
             passwordTextField.waitForExistence(timeout: 10),
             "Поле для ввода пароля не появилось")
         passwordTextField.tap()
-        passwordTextField.typeText("")
-        sleep(2)
+        passwordTextField.typeText("Freelander2016en")
         webView.tap() // Скрыть клавиатуру
         
         sleep(5)
@@ -67,15 +66,19 @@ final class ImageFeedFunUITests: XCTestCase {
 
         sleep(5)
 
-        let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
+        let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 0)
+        cellToLike.swipeUp()
 
         //Установить лайк
-        cellToLike.buttons["like button"].tap()
+        let likeButton = cellToLike.buttons["like button"]
+        likeButton.tap()
         
-        sleep(15)
+        sleep(5)
         
         //снять лайк
-        cellToLike.buttons["like button"].tap()
+        likeButton.tap()
+        
+        sleep(5)
         
         //Открыть картинку
         cellToLike.tap()
@@ -97,8 +100,8 @@ final class ImageFeedFunUITests: XCTestCase {
         sleep(5)
         app.tabBars.buttons.element(boundBy: 1).tap()
 
-        XCTAssertTrue(app.staticTexts[""].exists)
-        XCTAssertTrue(app.staticTexts[""].exists)
+        XCTAssertTrue(app.staticTexts["Захар Панченко"].exists)
+        XCTAssertTrue(app.staticTexts["@trit5"].exists)
         
         sleep(15)
 
