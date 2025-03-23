@@ -102,7 +102,6 @@ final class WebViewTests: XCTestCase {
     
     func testCodeFromURL() {
         
-        
         //given
         var urlComponents = URLComponents(string: "https://unsplash.com/oauth/authorize/native")!
         urlComponents.queryItems = [URLQueryItem(name: "code", value: "test code")]
@@ -115,7 +114,6 @@ final class WebViewTests: XCTestCase {
         //then
         XCTAssertEqual(code, "test code")
             
-        
     }
     
 }
