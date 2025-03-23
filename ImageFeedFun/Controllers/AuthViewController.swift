@@ -64,7 +64,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate
         button.backgroundColor = .white  // Измените цвет фона кнопки на синий (или любой другой)
         button.layer.cornerRadius = 16  // Закругление углов
         button.translatesAutoresizingMaskIntoConstraints = false  // Включаем Auto Layout
-        button.accessibilityIdentifier = "Authenticate" 
+        button.accessibilityIdentifier = IdentifierStruct.buttonLoginAI
 
         button.addTarget(
             self, action: #selector(onButtonTapped), for: .touchUpInside)

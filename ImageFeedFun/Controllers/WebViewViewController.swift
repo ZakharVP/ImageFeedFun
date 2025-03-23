@@ -30,7 +30,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
         webView = WKWebView(frame: view.bounds)
         webView.navigationDelegate = self
         
-        webView.accessibilityIdentifier = "UnsplashWebView"
+        webView.accessibilityIdentifier = IdentifierStruct.webViewAI
         view.addSubview(webView)
         
         progressView = UIProgressView(progressViewStyle: .default)

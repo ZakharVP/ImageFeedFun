@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import ImageFeedFun
 
 final class ImageFeedFunUITests: XCTestCase {
 

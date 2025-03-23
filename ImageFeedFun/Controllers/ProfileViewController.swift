@@ -103,7 +103,7 @@ final class ProfileViewController: UIViewController,
 
         buttonExit.tintColor = UIColor(named: "RedColorExitButton")
         buttonExit.translatesAutoresizingMaskIntoConstraints = false
-        buttonExit.accessibilityIdentifier = "logout button"
+        buttonExit.accessibilityIdentifier = IdentifierStruct.buttonLogoutAI
         view.addSubview(buttonExit)
 
         buttonExit.trailingAnchor.constraint(

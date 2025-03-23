@@ -23,7 +23,7 @@ final class WebViewPresenter: WebViewPresenterProtocol {
     }
 
     func viewDidLoad() {
-        guard let request = authHelper.authRequest() else { return }
+        guard let request = authHelper.createAuthRequest() else { return }
 
         view?.load(request: request)
         didUpdateProgressValue(0)
@@ -31,7 +31,7 @@ final class WebViewPresenter: WebViewPresenterProtocol {
     }
 
     func code(from url: URL) -> String? {
-        authHelper.code(from: url)
+        authHelper.getCode(from: url)
     }
 
     func didUpdateProgressValue(_ newValue: Double) {
