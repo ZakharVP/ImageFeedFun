@@ -64,8 +64,6 @@ final class ImageFeedFunUITests: XCTestCase {
     func testFeed() throws {
         let tablesQuery = app.tables
 
-        //let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
-
         sleep(5)
 
         let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
