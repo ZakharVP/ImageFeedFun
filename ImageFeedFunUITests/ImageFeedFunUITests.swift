@@ -20,8 +20,10 @@ final class ImageFeedFunUITests: XCTestCase {
 
     func testAuth() throws {
         
-        app.buttons["Authenticate"].tap()
-
+        let startButtun = app.buttons["Authenticate"]
+        XCTAssertTrue(startButtun.waitForExistence(timeout: 15), "Кнопка авторизации не появилась")
+        startButtun.tap()        
+            
         // Ожидаем появления webView
         let webView = app.webViews["UnsplashWebView"]
         XCTAssertTrue(
@@ -45,7 +47,7 @@ final class ImageFeedFunUITests: XCTestCase {
             passwordTextField.waitForExistence(timeout: 10),
             "Поле для ввода пароля не появилось")
         passwordTextField.tap()
-        passwordTextField.typeText("Freelander2016en")
+        passwordTextField.typeText("11111111")
         webView.tap() // Скрыть клавиатуру
         
         sleep(5)
