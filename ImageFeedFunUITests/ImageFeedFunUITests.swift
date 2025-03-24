@@ -43,11 +43,17 @@ final class ImageFeedFunUITests: XCTestCase {
 
         // Вводим пароль
         let passwordTextField = webView.descendants(matching: .secureTextField).element
-        XCTAssertTrue(
-            passwordTextField.waitForExistence(timeout: 10),
-            "Поле для ввода пароля не появилось")
+        XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         passwordTextField.tap()
-        passwordTextField.typeText("11111111")
+        sleep(1)
+        webView.swipeUp()
+               
+        UIPasteboard.general.string = "11111111"
+
+        passwordTextField.press(forDuration: 1.5)
+        XCTAssertTrue(app.menuItems["Paste"].waitForExistence(timeout: 5))
+        app.menuItems["Paste"].tap()
+        
         webView.tap() // Скрыть клавиатуру
         
         sleep(5)
