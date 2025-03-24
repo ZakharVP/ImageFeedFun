@@ -5,9 +5,16 @@
 //  Created by Захар Панченко on 27.10.2024.
 //
 
-struct Profile: Codable {
-    let username: String    // Логин
-    let name: String        // Имя и Фамилия
-    let loginName: String?   // Логин со знаком @
-    let bio: String?        // 
+public struct Profile: Codable {
+    public let username: String    // Логин
+    public let name: String        // Имя и Фамилия
+    public let loginName: String?   // Логин со знаком @
+    public let bio: String?        //
+    
+    public init(username: String, name: String, loginName: String, bio: String?) {
+           self.username = username
+           self.name = name
+           self.loginName = loginName
+           self.bio = bio
+       }
 }

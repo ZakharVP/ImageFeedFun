@@ -13,13 +13,13 @@ extension ImagesListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)
         -> Int
     {
-        return photos.count
+        return presenter.photos.count  
     }
 
     func tableView(
         _ tableView: UITableView, heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
-        if let height = cellHeights[indexPath] {
+        if let height = presenter.cellHeights[indexPath] {
             return height
         }
         return 200
@@ -36,8 +36,15 @@ extension ImagesListViewController: UITableViewDataSource, UITableViewDelegate {
         _ tableView: UITableView, willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.row == photos.count - 1 {
-            ImagesListService.shared.fetchPhotosNextPage()
+        if indexPath.row == presenter.photos.count - 1 {
+            presenter.fetchPhotosNextPage { result in
+                  switch result {
+                  case .success:
+                      print("Successfully fetched new photos")
+                  case .failure(let error):
+                      print("Failed to fetch photos: \(error)")
+                  }
+              }
         }
     }
 
@@ -54,7 +61,7 @@ extension ImagesListViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
 
-        let photo = photos[indexPath.row]
+        let photo = presenter.photos[indexPath.row]
         imageListCell.configCell(with: photo, dateFormatter: dateFormatter)
         imageListCell.likeButtonTapped = { [weak self] isLiked in
             guard let self = self else { return }
@@ -80,7 +87,7 @@ extension ImagesListViewController: UITableViewDataSource, UITableViewDelegate {
                     switch result {
                     case .success:
                         print("Лайк успешно добавлен")
-                        self.photos[indexPath.row].isLiked = true
+                        self.presenter.photos[indexPath.row].isLiked = true
                     case .failure(let error):
                         print("Ошибка при добавлении лайка: \(error)")
                     }
@@ -95,7 +102,7 @@ extension ImagesListViewController: UITableViewDataSource, UITableViewDelegate {
                     switch result {
                     case .success:
                         print("Лайк успешно удален")
-                        self.photos[indexPath.row].isLiked = false
+                        self.presenter.photos[indexPath.row].isLiked = false
                     case .failure(let error):
                         print("Ошибка при удалении лайка: \(error)")
                     }
@@ -104,3 +111,5 @@ extension ImagesListViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 }
+
+extension ImagesListService: ImagesListServiceProtocol {}
